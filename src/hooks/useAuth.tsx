@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile, signInWithPopup, GoogleAuthProvider, sendEmailVerification } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useUserStore } from '@/stores/userStore';
@@ -51,17 +51,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    if (!cred.user.emailVerified) {
-      await signOut(auth);
-      throw new Error('Please verify your email before signing in. Check your inbox.');
-    }
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   const register = async (email: string, password: string, displayName: string) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(cred.user, { displayName });
-    await sendEmailVerification(cred.user);
   };
 
   const signInWithGoogle = async () => {
@@ -69,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const sendVerificationEmail = async () => {
-    if (auth.currentUser) await sendEmailVerification(auth.currentUser);
+    // No-op kept for interface compatibility
   };
 
   const reloadUser = async () => {

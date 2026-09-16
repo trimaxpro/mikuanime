@@ -21,11 +21,19 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState('');
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceTimer = useRef<ReturnType<typeof setTimeout>>();
   const { data: searchResults } = useSearch(debouncedQuery, 1);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (searchOpen) {
+      const timer = setTimeout(() => searchInputRef.current?.focus(), 40);
+      return () => clearTimeout(timer);
+    }
+  }, [searchOpen]);
 
   useEffect(() => {
     const handler = () => {
@@ -134,20 +142,20 @@ export function Navbar() {
               <AnimatePresence>
                 {searchOpen && (
                   <motion.form
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: 340, opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    transition={{ duration: 0.22, ease: 'easeOut' }}
+                    initial={{ opacity: 0, scale: 0.96, x: 8 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.96, x: 8 }}
+                    transition={{ duration: 0.16, ease: 'easeOut' }}
                     onSubmit={handleSearch}
-                    className="absolute right-[calc(100%+8px)] top-1/2 -translate-y-1/2 overflow-hidden max-w-[calc(100vw-110px)]"
+                    className="absolute right-0 sm:right-[calc(100%+8px)] top-full sm:top-1/2 mt-2 sm:mt-0 sm:-translate-y-1/2 z-40 w-[calc(100vw-32px)] sm:w-80 md:w-96 origin-top-right sm:origin-right"
                   >
                     <div className="relative flex items-center">
                       <input
-                        autoFocus
+                        ref={searchInputRef}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search anime title, ID, genre..."
-                        className="w-full bg-surface/95 backdrop-blur-xl border border-border-subtle rounded-xl pl-3.5 pr-8 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/40 shadow-xl"
+                        className="w-full bg-surface/98 backdrop-blur-md border border-border-subtle rounded-xl pl-3.5 pr-8 py-2.5 sm:py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/40 shadow-2xl"
                       />
                       {searchQuery && (
                         <button
@@ -164,7 +172,7 @@ export function Navbar() {
               </AnimatePresence>
 
               {searchOpen && searchQuery.trim().length > 0 && searchResults?.data && searchResults.data.length > 0 && (
-                <div className="absolute right-[calc(100%+8px)] top-full mt-2 w-80 sm:w-96 max-w-[calc(100vw-32px)] bg-surface/95 backdrop-blur-2xl rounded-2xl p-2.5 z-50 max-h-[440px] overflow-y-auto shadow-2xl border border-border-subtle">
+                <div className="absolute right-0 sm:right-[calc(100%+8px)] top-[calc(100%+52px)] sm:top-full mt-2 w-[calc(100vw-32px)] sm:w-80 md:w-96 bg-surface/98 backdrop-blur-md rounded-2xl p-2.5 z-50 max-h-[440px] overflow-y-auto shadow-2xl border border-border-subtle animate-in fade-in-50 zoom-in-95 duration-100">
                   <div className="px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-text-muted flex items-center justify-between">
                     <span>Quick Matches</span>
                     <span className="text-accent-glow font-mono text-[10px]">Unrestricted</span>

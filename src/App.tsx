@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@/components/ui/Tooltip';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -18,7 +18,6 @@ const GenrePage = lazy(() => import('@/pages/GenrePage'));
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
 const SignInPage = lazy(() => import('@/pages/SignInPage'));
 const RegisterPage = lazy(() => import('@/pages/RegisterPage'));
-const VerifyEmailPage = lazy(() => import('@/pages/VerifyEmailPage'));
 const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
@@ -71,7 +70,7 @@ function App() {
                         <Route path="/watchlist" element={<ProfilePage />} />
                         <Route path="/signin" element={<SignInPage />} />
                         <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/verify-email" element={<VerifyEmailPage />} />
+                        <Route path="/verify-email" element={<Navigate to="/" replace />} />
                         <Route path="/terms" element={<TermsPage />} />
                         <Route path="/privacy" element={<PrivacyPage />} />
                         <Route path="*" element={<NotFoundPage />} />

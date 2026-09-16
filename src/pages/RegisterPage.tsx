@@ -44,7 +44,7 @@ export default function RegisterPage() {
     setIsLoading(true);
     try {
       await register(email, password, displayName);
-      navigate('/verify-email');
+      navigate('/');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to register');
     } finally {
