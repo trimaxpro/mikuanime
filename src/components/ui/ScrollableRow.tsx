@@ -11,19 +11,11 @@ interface ScrollableRowProps {
 const END_THRESHOLD = 400;
 const LOADING_LOCK_MS = 1500;
 
-function getEstimatedCoverCenter(): number {
-  if (typeof window === 'undefined') return 150;
-  const w = window.innerWidth;
-  const cardWidth = w >= 1024 ? 235 : w >= 768 ? 225 : w >= 640 ? 205 : 185;
-  return (cardWidth * 4) / 3 / 2;
-}
-
 export function ScrollableRow({ children, className, onEndReached }: ScrollableRowProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [hovered, setHovered] = useState(false);
-  const [coverCenter, setCoverCenter] = useState<number>(getEstimatedCoverCenter);
   const loadingLockRef = useRef(false);
   const lockTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -50,23 +42,6 @@ export function ScrollableRow({ children, className, onEndReached }: ScrollableR
     };
   }, []);
 
-  const updateCoverCenter = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const cover =
-      el.querySelector<HTMLElement>('[class*="aspect-"]') ||
-      el.querySelector<HTMLElement>('img')?.parentElement ||
-      el.querySelector<HTMLElement>('a');
-    if (cover && cover.offsetHeight > 0) {
-      const coverRect = cover.getBoundingClientRect();
-      const containerRect = el.getBoundingClientRect();
-      const center = coverRect.top - containerRect.top + coverRect.height / 2;
-      if (center > 0) {
-        setCoverCenter(center);
-      }
-    }
-  }, []);
-
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -74,33 +49,6 @@ export function ScrollableRow({ children, className, onEndReached }: ScrollableR
     el.addEventListener('scroll', updateScrollState, { passive: true });
     return () => el.removeEventListener('scroll', updateScrollState);
   }, [updateScrollState]);
-
-  useEffect(() => {
-    updateCoverCenter();
-    const el = containerRef.current;
-    if (!el) return;
-
-    const rafId = requestAnimationFrame(updateCoverCenter);
-
-    let observer: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      observer = new ResizeObserver(() => {
-        updateCoverCenter();
-      });
-      observer.observe(el);
-      if (el.firstElementChild) {
-        observer.observe(el.firstElementChild);
-      }
-    }
-
-    window.addEventListener('resize', updateCoverCenter);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      if (observer) observer.disconnect();
-      window.removeEventListener('resize', updateCoverCenter);
-    };
-  }, [children, updateCoverCenter]);
 
   const scroll = (direction: 'left' | 'right') => {
     const el = containerRef.current;
@@ -112,36 +60,36 @@ export function ScrollableRow({ children, className, onEndReached }: ScrollableR
 
   return (
     <div
-      className={cn('relative flex items-start gap-2', className)}
+      className={cn('group/row relative', className)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <button
         onClick={() => scroll('left')}
         disabled={!canScrollLeft}
-        style={{ marginTop: `${coverCenter}px` }}
         className={cn(
-          'shrink-0 w-8 h-8 rounded-full flex items-center justify-center border border-border-subtle bg-elevated/90 text-text-secondary hover:text-text-primary hover:border-border-glow hover:bg-elevated transition-all shadow-lg backdrop-blur-sm z-10 -translate-y-1/2',
-          canScrollLeft && hovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+          'absolute left-1 top-[42%] -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center border border-border-subtle bg-void/90 text-text-secondary hover:text-text-primary hover:border-accent-primary/50 hover:bg-elevated transition-all shadow-xl backdrop-blur-md z-20',
+          canScrollLeft && hovered ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-95',
         )}
         aria-label="Previous"
       >
         <ChevronLeft className="w-4 h-4 stroke-[1.5]" />
       </button>
+
       <div
         ref={containerRef}
-        className="flex-1 min-w-0 flex gap-3 overflow-x-auto scroll-smooth pb-1"
+        className="flex gap-3 overflow-x-auto scroll-smooth pb-1 px-0.5"
         style={{ scrollbarWidth: 'none' }}
       >
         {children}
       </div>
+
       <button
         onClick={() => scroll('right')}
         disabled={!canScrollRight}
-        style={{ marginTop: `${coverCenter}px` }}
         className={cn(
-          'shrink-0 w-8 h-8 rounded-full flex items-center justify-center border border-border-subtle bg-elevated/90 text-text-secondary hover:text-text-primary hover:border-border-glow hover:bg-elevated transition-all shadow-lg backdrop-blur-sm z-10 -translate-y-1/2',
-          canScrollRight && hovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+          'absolute right-1 top-[42%] -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center border border-border-subtle bg-void/90 text-text-secondary hover:text-text-primary hover:border-accent-primary/50 hover:bg-elevated transition-all shadow-xl backdrop-blur-md z-20',
+          canScrollRight && hovered ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-95',
         )}
         aria-label="Next"
       >

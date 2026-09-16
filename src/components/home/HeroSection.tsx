@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ChevronDown, Star, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { HeroSkeleton } from '@/components/ui/Skeleton';
 
-import { useAnimeTheme } from '@/hooks/useAnimeTheme';
 import type { Anime } from '@/types/anime';
 
 interface HeroSectionProps {
@@ -16,24 +15,11 @@ interface HeroSectionProps {
 }
 
 function HeroBackground({ anime: featured }: { anime: Anime }) {
-  const { data: themeUrl } = useAnimeTheme(featured?.anilist_id);
   const [ready, setReady] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const bgImage = featured?.banner_image || featured?.images?.jpg?.large_image_url || featured?.images?.jpg?.image_url;
 
-  useEffect(() => {
-    const v = videoRef.current;
-    return () => {
-      if (v) {
-        v.pause();
-        v.removeAttribute('src');
-        v.load();
-      }
-    };
-  }, []);
-
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 overflow-hidden">
       {bgImage ? (
         <img
           src={bgImage}
@@ -41,26 +27,14 @@ function HeroBackground({ anime: featured }: { anime: Anime }) {
           loading="eager"
           decoding="async"
           ref={(img) => { if (img?.complete) setReady(true); }}
-          className={`absolute inset-0 w-full h-full object-cover scale-[1.02] transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-cover scale-105 transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setReady(true)}
         />
-      ) : null}
-      {themeUrl ? (
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          className={`absolute inset-0 w-full h-full object-cover scale-[1.02] opacity-0 transition-opacity duration-500 ${ready ? 'opacity-100' : ''}`}
-          onCanPlay={(e) => { setReady(true); (e.target as HTMLVideoElement).play().catch(() => {}); }}
-        >
-          <source src={themeUrl} type="video/webm" />
-        </video>
-      ) : null}
-      <div className="absolute inset-0 bg-gradient-to-r from-void via-void/80 to-void/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-void/30" />
+      ) : (
+        <div className="w-full h-full bg-surface/80" />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-r from-void via-void/85 to-void/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-void/40" />
     </div>
   );
 }

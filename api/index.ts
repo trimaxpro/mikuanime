@@ -58,6 +58,7 @@ async function gql<T = unknown>(query: string, variables: GqlVars = {}): Promise
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({ query, variables }),
+    signal: AbortSignal.timeout(8000),
   });
   if (!res.ok) throw new Error(`AniList API error: ${res.status}`);
   const json = (await res.json()) as GqlResult<T>;
@@ -305,6 +306,7 @@ export default async function handler(req: any, res: any) {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET") {
@@ -316,9 +318,13 @@ export default async function handler(req: any, res: any) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   let pathname = url.pathname.replace(/^\/api/, "") || "/";
   const rawPath = url.searchParams.get("path");
-  if (rawPath) pathname = rawPath.startsWith("/") ? rawPath : "/" + rawPath;
+  if (rawPath) {
+    pathname = rawPath.startsWith("/") ? rawPath : "/" + rawPath;
+    url.searchParams.delete("path");
+  }
   pathname = pathname.replace(/\/index(\.ts)?$/, "") || "/";
   pathname = pathname.replace(/\/\[\.\.\.path\](\.ts)?$/, "") || "/";
+  if (!pathname.startsWith("/")) pathname = "/" + pathname;
   const p = url.searchParams;
 
   try {

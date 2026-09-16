@@ -5,7 +5,7 @@ import { ContinueWatching } from '@/components/home/ContinueWatching';
 import { TrendingRow } from '@/components/home/TrendingRow';
 import { SeasonalGrid } from '@/components/home/SeasonalGrid';
 import { GenreQuickNav } from '@/components/home/GenreQuickNav';
-import { useTrending, useSeasonal, useUpcoming, useTop, useTrendingNow, useBrowse } from '@/hooks/useAnime';
+import { useTrending, useSeasonal, useUpcoming, useTop, useBrowse } from '@/hooks/useAnime';
 import type { Anime } from '@/types/anime';
 
 // Stable static filter references to avoid re-triggering query hook evaluations on each render
@@ -15,7 +15,6 @@ const ECCHI_PARAMS = { genres: ['Ecchi'], sort: 'trending' as const };
 
 export default function HomePage() {
   const trending = useTrending();
-  const trendingNow = useTrendingNow();
   const seasonal = useSeasonal();
   const top = useTop();
   const upcoming = useUpcoming();
@@ -35,7 +34,7 @@ export default function HomePage() {
       });
 
     return {
-      trendingNow: dedup(trendingNow.data || []),
+      trendingNow: dedup(trending.data || []),
       seasonal: dedup(seasonal.data || []),
       top: dedup(top.data || []),
       upcoming: dedup(upcoming.data || []),
@@ -44,7 +43,7 @@ export default function HomePage() {
       ecchi: dedup(ecchi.data?.pages.flatMap((p) => p.data) || []),
     };
   }, [
-    trendingNow.data,
+    trending.data,
     seasonal.data,
     top.data,
     upcoming.data,
@@ -69,7 +68,7 @@ export default function HomePage() {
     <PageWrapper>
       <HeroSection anime={trending.data || []} isLoading={trending.isLoading} />
       <ContinueWatching />
-      <TrendingRow title="Trending Now" anime={rows.trendingNow} isLoading={trendingNow.isLoading} />
+      <TrendingRow title="Trending Now" anime={rows.trendingNow} isLoading={trending.isLoading} />
       <SeasonalGrid title="This Season" anime={rows.seasonal} isLoading={seasonal.isLoading} />
       <TrendingRow title="Top Rated" anime={rows.top} isLoading={top.isLoading} showRank />
       <TrendingRow title="Upcoming" anime={rows.upcoming} isLoading={upcoming.isLoading} />
