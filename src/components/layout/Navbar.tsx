@@ -101,7 +101,7 @@ export function Navbar() {
           scrolled ? 'bg-void/80 backdrop-blur-xl' : 'bg-transparent',
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between relative">
           <div className="flex items-center gap-3 sm:gap-3.5">
             <Link to="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-card overflow-hidden border border-border-subtle shadow-glow-sm flex-shrink-0 bg-void group-hover:border-accent-primary/40 transition-all duration-300">
@@ -114,7 +114,7 @@ export function Navbar() {
             <LiveViewerCounter className="hidden sm:inline-flex ml-1" />
           </div>
 
-          <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-surface/60 backdrop-blur-md border border-border-subtle/80 shadow-sm">
+          <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-surface/60 backdrop-blur-md border border-border-subtle/80 shadow-sm absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             {NAV_LINKS.map((link) => {
               const Icon = link.icon;
               const isActive = location.pathname === link.to;
