@@ -5,6 +5,7 @@ import { Search, Menu, X, Home, Globe, Calendar, LogIn, BookmarkPlus } from 'luc
 import { cn } from '@/utils/cn';
 import { useSearch } from '@/hooks/useSearch';
 import { useAuth } from '@/hooks/useAuth';
+import { LiveViewerCounter } from '@/components/ui/LiveViewerCounter';
 import type { Anime } from '@/types/anime';
 
 const NAV_LINKS = [
@@ -138,6 +139,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <LiveViewerCounter variant="badge" />
             <div ref={searchContainerRef} className="relative flex items-center">
               <AnimatePresence>
                 {searchOpen && (
@@ -272,6 +274,10 @@ export function Navbar() {
                   className="w-full bg-elevated/80 border border-border-subtle rounded-xl pl-9 pr-3 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary"
                 />
               </form>
+
+              <div className="mb-3">
+                <LiveViewerCounter variant="box" className="w-full" />
+              </div>
 
               <div className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => {

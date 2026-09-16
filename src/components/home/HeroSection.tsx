@@ -6,6 +6,7 @@ import { DotPattern } from '@/components/ui/DotPattern';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { HeroSkeleton } from '@/components/ui/Skeleton';
+import { LiveViewerCounter } from '@/components/ui/LiveViewerCounter';
 import type { Anime } from '@/types/anime';
 
 interface HeroSectionProps {
@@ -141,6 +142,7 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
             >
               {/* Badges */}
               <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+                <LiveViewerCounter variant="badge" className="bg-void/70 border-emerald-500/40" />
                 {currentAnime.genres?.slice(0, 3).map((g) => (
                   <Badge key={g.name} variant="violet">{g.name}</Badge>
                 ))}
