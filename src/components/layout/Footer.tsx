@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { FileText, Shield } from 'lucide-react';
-import { LiveViewerCounter } from '@/components/ui/LiveViewerCounter';
 
 export function Footer() {
   return (
@@ -9,9 +8,6 @@ export function Footer() {
         <p className="text-text-secondary md:w-1/3 text-center md:text-left leading-relaxed text-[14px] sm:text-[14.5px]">
           MikuAnime does not store any files on our server. We only link to media hosted on third-party services.
         </p>
-        <div className="md:w-1/3 flex justify-center">
-          <LiveViewerCounter variant="footer" />
-        </div>
         <div className="md:w-1/3 flex items-center justify-center md:justify-end gap-3 text-text-secondary text-[14.5px] sm:text-[15px]">
           <Link
             to="/terms"

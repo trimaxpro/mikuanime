@@ -111,7 +111,7 @@ export function Navbar() {
                 <span className="text-accent-glow">Miku</span><span className="text-text-primary">Anime</span>
               </span>
             </Link>
-            <LiveViewerCounter variant="badge" className="hidden sm:inline-flex ml-1" />
+            <LiveViewerCounter className="hidden sm:inline-flex ml-1" />
           </div>
 
           <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-surface/60 backdrop-blur-md border border-border-subtle/80 shadow-sm">
@@ -276,10 +276,6 @@ export function Navbar() {
                   className="w-full bg-elevated/80 border border-border-subtle rounded-xl pl-9 pr-3 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary"
                 />
               </form>
-
-              <div className="mb-3">
-                <LiveViewerCounter variant="box" className="w-full" />
-              </div>
 
               <div className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => {

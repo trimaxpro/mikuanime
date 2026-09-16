@@ -6,7 +6,6 @@ import { DotPattern } from '@/components/ui/DotPattern';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { HeroSkeleton } from '@/components/ui/Skeleton';
-import { LiveViewerCounter } from '@/components/ui/LiveViewerCounter';
 import type { Anime } from '@/types/anime';
 
 interface HeroSectionProps {
@@ -88,11 +87,27 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
     return () => clearInterval(timer);
   }, [featuredList.length, isHovered, paginate]);
 
+  const currentSlide = featuredList[page] || featuredList[0];
+
+  // HD background priority: banner (1920px landscape) > hi-res cover.
+  // Falls back through the chain automatically if a URL 404s/broken.
+  const bgTiers = useMemo(() => {
+    const a = currentSlide;
+    return [a?.banner_image, a?.images?.webp?.large_image_url, a?.images?.jpg?.large_image_url]
+      .filter((u): u is string => Boolean(u));
+  }, [currentSlide]);
+
+  const [bgTier, setBgTier] = useState(0);
+
+  useEffect(() => {
+    setBgTier(0);
+  }, [currentSlide?.mal_id]);
+
   if (isLoading) return <HeroSkeleton />;
   if (!featuredList.length) return null;
 
-  const currentAnime = featuredList[page] || featuredList[0];
-  const bgImage = currentAnime.banner_image || currentAnime.images?.jpg?.large_image_url || currentAnime.images?.jpg?.image_url;
+  const currentAnime = currentSlide;
+  const bgImage = bgTiers[Math.min(bgTier, bgTiers.length - 1)] ?? null;
 
   return (
     <div
@@ -115,7 +130,10 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
               src={bgImage}
               alt=""
               loading="eager"
+              fetchPriority="high"
               decoding="async"
+              draggable={false}
+              onError={() => setBgTier((t) => Math.min(t + 1, bgTiers.length - 1))}
               className="w-full h-full object-cover"
             />
           )}
@@ -142,7 +160,6 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
             >
               {/* Badges */}
               <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-                <LiveViewerCounter variant="badge" className="bg-void/70 border-emerald-500/40" />
                 {currentAnime.genres?.slice(0, 3).map((g) => (
                   <Badge key={g.name} variant="violet">{g.name}</Badge>
                 ))}
