@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type ComponentType } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@/components/ui/Tooltip';
@@ -8,19 +8,45 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AuthProvider } from '@/hooks/useAuth';
 
+function lazyWithRetry<T extends ComponentType<unknown>>(
+  componentImport: () => Promise<{ default: T }>
+) {
+  return lazy(async () => {
+    const hasRefreshed = sessionStorage.getItem('lazy_retry_refreshed') === 'true';
+    try {
+      const component = await componentImport();
+      sessionStorage.removeItem('lazy_retry_refreshed');
+      return component;
+    } catch (error: unknown) {
+      const err = error as { message?: string; name?: string };
+      const isChunkError =
+        err?.message?.includes('Failed to fetch dynamically imported module') ||
+        err?.message?.includes('Importing a module script failed') ||
+        err?.name === 'ChunkLoadError';
+
+      if (isChunkError && !hasRefreshed) {
+        sessionStorage.setItem('lazy_retry_refreshed', 'true');
+        window.location.reload();
+        return new Promise<{ default: T }>(() => {});
+      }
+      throw error;
+    }
+  });
+}
+
 import HomePage from '@/pages/HomePage';
-const BrowsePage = lazy(() => import('@/pages/BrowsePage'));
-const AnimePage = lazy(() => import('@/pages/AnimePage'));
-const WatchPage = lazy(() => import('@/pages/WatchPage'));
-const SearchPage = lazy(() => import('@/pages/SearchPage'));
-const SchedulePage = lazy(() => import('@/pages/SchedulePage'));
-const GenrePage = lazy(() => import('@/pages/GenrePage'));
-const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
-const SignInPage = lazy(() => import('@/pages/SignInPage'));
-const RegisterPage = lazy(() => import('@/pages/RegisterPage'));
-const TermsPage = lazy(() => import('@/pages/TermsPage'));
-const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const BrowsePage = lazyWithRetry(() => import('@/pages/BrowsePage'));
+const AnimePage = lazyWithRetry(() => import('@/pages/AnimePage'));
+const WatchPage = lazyWithRetry(() => import('@/pages/WatchPage'));
+const SearchPage = lazyWithRetry(() => import('@/pages/SearchPage'));
+const SchedulePage = lazyWithRetry(() => import('@/pages/SchedulePage'));
+const GenrePage = lazyWithRetry(() => import('@/pages/GenrePage'));
+const ProfilePage = lazyWithRetry(() => import('@/pages/ProfilePage'));
+const SignInPage = lazyWithRetry(() => import('@/pages/SignInPage'));
+const RegisterPage = lazyWithRetry(() => import('@/pages/RegisterPage'));
+const TermsPage = lazyWithRetry(() => import('@/pages/TermsPage'));
+const PrivacyPage = lazyWithRetry(() => import('@/pages/PrivacyPage'));
+const NotFoundPage = lazyWithRetry(() => import('@/pages/NotFoundPage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
