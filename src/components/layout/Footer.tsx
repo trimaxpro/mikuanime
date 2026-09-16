@@ -4,11 +4,11 @@ import { FileText, Shield } from 'lucide-react';
 export function Footer() {
   return (
     <footer className="mt-12 border-t border-border-subtle/80 bg-surface/30 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 pt-6 pb-5 flex flex-col md:flex-row items-center md:items-start justify-between gap-3 font-body">
+      <div className="max-w-7xl mx-auto px-4 pt-6 pb-4 flex flex-col md:flex-row items-center md:items-start justify-between gap-3 font-body">
         <p className="text-text-secondary md:w-1/3 text-center md:text-left leading-7 text-[14px] sm:text-[14.5px]">
           MikuAnime does not store any files on our server. We only link to media hosted on third-party services.
         </p>
-        <div className="md:w-1/3 flex items-center justify-center gap-3 text-text-secondary text-[14.5px] sm:text-[15px]">
+        <div className="md:w-1/3 flex items-center justify-center md:justify-end gap-3 text-text-secondary text-[14.5px] sm:text-[15px]">
           <Link
             to="/terms"
             className="hover:text-accent-glow transition-colors duration-200 flex items-center gap-2 font-medium hover:bg-white/[0.04] px-3 h-7 rounded-full border border-transparent hover:border-border-subtle/60"
@@ -25,9 +25,9 @@ export function Footer() {
             <span>Privacy Policy</span>
           </Link>
         </div>
-        <div className="md:w-1/3 text-center md:text-right text-xs text-text-muted leading-7">
-          &copy; {new Date().getFullYear()} MikuAnime. All rights reserved.
-        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 pb-4 text-center font-body font-medium text-text-secondary text-[14.5px] sm:text-[15px]">
+        &copy; {new Date().getFullYear()} MikuAnime. All rights reserved.
       </div>
     </footer>
   );
