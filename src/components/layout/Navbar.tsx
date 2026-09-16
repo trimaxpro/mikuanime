@@ -102,14 +102,17 @@ export function Navbar() {
         )}
       >
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-card overflow-hidden border border-border-subtle shadow-glow-sm flex-shrink-0 bg-void group-hover:border-accent-primary/40 transition-all duration-300">
-              <img src="/logo.gif" alt="MikuAnime Logo" className="w-full h-full object-contain" />
-            </div>
-            <span className="font-display font-bold text-[21px] sm:text-[23px] leading-tight tracking-tight">
-              <span className="text-accent-glow">Miku</span><span className="text-text-primary">Anime</span>
-            </span>
-          </Link>
+          <div className="flex items-center gap-3 sm:gap-3.5">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-card overflow-hidden border border-border-subtle shadow-glow-sm flex-shrink-0 bg-void group-hover:border-accent-primary/40 transition-all duration-300">
+                <img src="/logo.gif" alt="MikuAnime Logo" className="w-full h-full object-contain" />
+              </div>
+              <span className="font-display font-bold text-[21px] sm:text-[23px] leading-tight tracking-tight">
+                <span className="text-accent-glow">Miku</span><span className="text-text-primary">Anime</span>
+              </span>
+            </Link>
+            <LiveViewerCounter variant="badge" className="hidden sm:inline-flex ml-1" />
+          </div>
 
           <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-surface/60 backdrop-blur-md border border-border-subtle/80 shadow-sm">
             {NAV_LINKS.map((link) => {
@@ -139,7 +142,6 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <LiveViewerCounter variant="badge" />
             <div ref={searchContainerRef} className="relative flex items-center">
               <AnimatePresence>
                 {searchOpen && (

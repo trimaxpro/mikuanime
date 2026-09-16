@@ -24,7 +24,7 @@ function LiveViewerCounterInner({
           'inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-void/80 border border-emerald-500/30 text-xs text-text-primary backdrop-blur-md shadow-glow-sm hover:border-emerald-500/50 transition-all select-none',
           className,
         )}
-        title="Active live viewers currently on MikuAnime"
+        title="Viewers on MikuAnime in the last 24 hours"
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -35,7 +35,7 @@ function LiveViewerCounterInner({
         </div>
         {showLabel && (
           <span className="hidden sm:inline text-[11px] text-text-muted font-sans font-medium uppercase tracking-wider">
-            Live
+            Viewers
           </span>
         )}
       </div>
@@ -57,7 +57,7 @@ function LiveViewerCounterInner({
         </span>
         <div className="flex items-center gap-1.5 font-body">
           <span className="font-mono font-bold text-emerald-400 text-sm">{formatted}</span>
-          <span>anime fans watching live right now</span>
+          <span>fans on MikuAnime in the last 24 hours</span>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ function LiveViewerCounterInner({
 
           <div className="flex items-center gap-1 text-[11px] text-text-muted font-body font-medium uppercase tracking-wider">
             <Radio className="w-3 h-3 text-emerald-400 animate-pulse stroke-[2]" />
-            <span>Viewers Live</span>
+            <span>Viewers · 24h</span>
           </div>
         </div>
       </div>

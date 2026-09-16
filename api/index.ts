@@ -48,6 +48,40 @@ function setCached(key: string, data: unknown, ttl: number) {
 }
 
 // ---------------------------------------------------------------------------
+// Viewer counter — served from Vercel Web Analytics (unique visitors, rolling
+// 24h). Not real-time: analytics is aggregated, so this is a daily-activity
+// figure displayed in the UI, not a live "right now" count.
+// ---------------------------------------------------------------------------
+const VIEWERS_TTL = 300000; // 5 min — analytics data doesn't change faster
+
+async function fetchAnalyticsViewers(): Promise<number> {
+  const token = process.env.VERCEL_TOKEN;
+  const projectId = process.env.VERCEL_PROJECT_ID;
+  if (!token || !projectId) return 1;
+
+  const url = new URL("https://api.vercel.com/v1/query/web-analytics/visits/count");
+  url.searchParams.set("projectId", projectId);
+  if (process.env.VERCEL_TEAM_ID) url.searchParams.set("teamId", process.env.VERCEL_TEAM_ID);
+  url.searchParams.set("since", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+
+  const res = await fetch(url.toString(), {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!res.ok) throw new Error(`Vercel analytics API: ${res.status}`);
+  const json = (await res.json()) as any;
+  const data = json?.data;
+  if (Array.isArray(data)) {
+    const row = data[0];
+    if (row && typeof row.visitors === "number") return row.visitors;
+    if (row && typeof row.count === "number") return row.count;
+  }
+  if (data && typeof data.visitors === "number") return data.visitors;
+  if (data && typeof data.count === "number") return data.count;
+  return 1;
+}
+
+// ---------------------------------------------------------------------------
 // AniList GraphQL client
 // ---------------------------------------------------------------------------
 type GqlVars = Record<string, unknown>;
@@ -416,6 +450,22 @@ export default async function handler(req: any, res: any) {
       const result = { data: media.map(normalizeMedia) };
       setCached(cacheKey, result, DEFAULT_TTL);
       return res.status(200).json(result);
+    }
+
+    // ---- Viewers (Vercel Web Analytics, rolling 24h) ----
+    if (pathname === "/viewers") {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      const cacheKey = "viewers";
+      let viewers = getCached<number>(cacheKey);
+      if (viewers == null) {
+        try {
+          viewers = await fetchAnalyticsViewers();
+        } catch {
+          viewers = 1;
+        }
+        setCached(cacheKey, viewers, VIEWERS_TTL);
+      }
+      return res.status(200).json({ liveViewers: viewers, window: "24h", timestamp: Date.now() });
     }
 
     // ---- Search ----

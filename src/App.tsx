@@ -7,6 +7,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AuthProvider } from '@/hooks/useAuth';
+import { Analytics } from '@vercel/analytics/react';
 
 function lazyWithRetry<T extends ComponentType<unknown>>(
   componentImport: () => Promise<{ default: T }>
@@ -105,6 +106,7 @@ function App() {
                   </ErrorBoundary>
                 </div>
                 <Footer />
+                <Analytics />
               </div>
             </AuthProvider>
           </BrowserRouter>
