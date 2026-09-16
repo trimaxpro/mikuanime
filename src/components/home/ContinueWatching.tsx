@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Clock, Film, Trash2 } from 'lucide-react';
 import { ScrollableRow } from '@/components/ui/ScrollableRow';
 import { useWatchHistory } from '@/hooks/useWatchHistory';
 
-export function ContinueWatching() {
+function ContinueWatchingInner() {
   const { watchHistory, clearWatchHistory } = useWatchHistory();
   const [confirming, setConfirming] = useState(false);
 
@@ -24,7 +24,7 @@ export function ContinueWatching() {
   if (entries.length === 0) return null;
 
   return (
-    <section className="pt-4 pb-2.5 px-4 max-w-7xl mx-auto">
+    <section className="pt-4 pb-2.5 px-4 max-w-7xl mx-auto" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 320px' }}>
       <div className="flex items-center justify-between mb-2.5">
         <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary flex items-center gap-2">
           <Clock className="w-5 h-5 text-accent-glow stroke-[1.5]" />
@@ -76,12 +76,9 @@ export function ContinueWatching() {
         </div>
       </div>
       <ScrollableRow>
-        {entries.map((entry, i) => (
-          <motion.div
+        {entries.map((entry) => (
+          <div
             key={`${entry.malId}-${entry.episode}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05, duration: 0.3 }}
             className="flex-shrink-0 w-[185px] sm:w-[205px] md:w-[225px] lg:w-[235px] group relative flex flex-col gap-2"
           >
             <Link
@@ -124,9 +121,11 @@ export function ContinueWatching() {
               </h3>
               <p className="text-xs text-text-muted">Episode {entry.episode}</p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </ScrollableRow>
     </section>
   );
 }
+
+export const ContinueWatching = memo(ContinueWatchingInner);

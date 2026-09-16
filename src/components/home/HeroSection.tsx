@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { Play, ChevronDown, ChevronLeft, ChevronRight, Star, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -57,7 +57,7 @@ const bgVariants: Variants = {
   },
 };
 
-export function HeroSection({ anime, isLoading }: HeroSectionProps) {
+function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -104,7 +104,7 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
         <motion.div
           key={currentAnime.mal_id}
           variants={bgVariants}
-          initial="enter"
+          initial={direction === 0 ? false : 'enter'}
           animate="center"
           exit="exit"
           className="absolute inset-0 z-0 will-change-transform"
@@ -134,7 +134,7 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
               key={currentAnime.mal_id}
               custom={direction}
               variants={contentVariants}
-              initial="enter"
+              initial={direction === 0 ? false : 'enter'}
               animate="center"
               exit="exit"
               className="max-w-2xl"
@@ -235,3 +235,5 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
     </div>
   );
 }
+
+export const HeroSection = memo(HeroSectionInner);

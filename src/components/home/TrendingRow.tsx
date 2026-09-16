@@ -1,3 +1,4 @@
+import { useCallback, memo } from 'react';
 import { Flame, TrendingUp, Star } from 'lucide-react';
 import { AnimeCard } from '@/components/ui/AnimeCard';
 import { ScrollableRow } from '@/components/ui/ScrollableRow';
@@ -17,13 +18,26 @@ const titleIcons: Record<string, typeof Flame> = {
   'Trending': Flame, 'Popular': TrendingUp, 'Upcoming': Star,
 };
 
-export function TrendingRow({ title, anime, isLoading, showRank = false, fetchNext }: TrendingRowProps) {
+function TrendingRowInner({ title, anime, isLoading, showRank = false, fetchNext }: TrendingRowProps) {
   const { toggleWatchlist } = useWatchlist();
   const TitleIcon = Object.entries(titleIcons).find(([k]) => title.includes(k))?.[1] || TrendingUp;
 
+  const handleAddToWatchlist = useCallback((malId: number) => {
+    const a = anime.find((x) => x.mal_id === malId);
+    if (a) {
+      toggleWatchlist({
+        malId: a.mal_id,
+        title: a.title_english || a.title,
+        image: a.images.jpg?.image_url || '',
+      });
+    }
+  }, [anime, toggleWatchlist]);
+
   return (
-    <section className="pt-2 pb-2.5 px-4 max-w-7xl mx-auto">
-      <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-2.5 flex items-center gap-2"><TitleIcon className="w-5 h-5 text-accent-glow stroke-[1.5]" /> {title}</h2>
+    <section className="pt-2 pb-2.5 px-4 max-w-7xl mx-auto" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 320px' }}>
+      <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-2.5 flex items-center gap-2">
+        <TitleIcon className="w-5 h-5 text-accent-glow stroke-[1.5]" /> {title}
+      </h2>
       {isLoading ? (
         <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -46,10 +60,7 @@ export function TrendingRow({ title, anime, isLoading, showRank = false, fetchNe
               )}
               <AnimeCard
                 anime={item}
-                onAddToWatchlist={(malId) => {
-                  const a = anime.find((x) => x.mal_id === malId);
-                  if (a) toggleWatchlist({ malId: a.mal_id, title: a.title_english || a.title, image: a.images.jpg?.image_url || '' });
-                }}
+                onAddToWatchlist={handleAddToWatchlist}
               />
             </div>
           ))}
@@ -58,3 +69,6 @@ export function TrendingRow({ title, anime, isLoading, showRank = false, fetchNe
     </section>
   );
 }
+
+export const TrendingRow = memo(TrendingRowInner);
+

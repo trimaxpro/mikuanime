@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
@@ -11,7 +11,7 @@ interface ScrollableRowProps {
 const END_THRESHOLD = 400;
 const LOADING_LOCK_MS = 1500;
 
-export function ScrollableRow({ children, className, onEndReached }: ScrollableRowProps) {
+function ScrollableRowInner({ children, className, onEndReached }: ScrollableRowProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -22,8 +22,10 @@ export function ScrollableRow({ children, className, onEndReached }: ScrollableR
   const updateScrollState = useCallback(() => {
     const el = containerRef.current;
     if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    const newLeft = el.scrollLeft > 4;
+    const newRight = el.scrollLeft < el.scrollWidth - el.clientWidth - 4;
+    setCanScrollLeft((prev) => (prev !== newLeft ? newLeft : prev));
+    setCanScrollRight((prev) => (prev !== newRight ? newRight : prev));
 
     if (onEndReached && !loadingLockRef.current) {
       const remaining = el.scrollWidth - el.scrollLeft - el.clientWidth;
@@ -98,3 +100,5 @@ export function ScrollableRow({ children, className, onEndReached }: ScrollableR
     </div>
   );
 }
+
+export const ScrollableRow = memo(ScrollableRowInner);
