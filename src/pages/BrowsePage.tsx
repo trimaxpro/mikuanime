@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Compass, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AnimeGrid } from '@/components/browse/AnimeGrid';
@@ -10,20 +10,26 @@ export default function BrowsePage() {
     type: 'TV', status: null, season: null, year: null, genres: [], sort: 'score',
   });
 
-  const browseParams: Record<string, unknown> = {};
-  if (filters.type) browseParams.type = filters.type;
-  if (filters.status) browseParams.status = filters.status;
-  if (filters.season) browseParams.season = filters.season;
-  if (filters.year) browseParams.year = filters.year;
-  if (filters.genres.length > 0) browseParams.genres = filters.genres;
-  browseParams.sort = filters.sort;
+  const browseParams = useMemo(() => {
+    const params: Record<string, unknown> = {};
+    if (filters.type) params.type = filters.type;
+    if (filters.status) params.status = filters.status;
+    if (filters.season) params.season = filters.season;
+    if (filters.year) params.year = filters.year;
+    if (filters.genres.length > 0) params.genres = filters.genres;
+    params.sort = filters.sort;
+    return params;
+  }, [filters]);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } = useBrowse(browseParams as Parameters<typeof useBrowse>[0]);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  const allAnime = data?.pages.flatMap((p) => p.data) || [];
-  const totalResults = data?.pages[0]?.pagination?.per_page
-    ? data.pages.length * data.pages[0].pagination.per_page
-    : undefined;
+  const allAnime = useMemo(() => data?.pages.flatMap((p) => p.data) || [], [data]);
+  const totalResults = useMemo(() => {
+    return data?.pages[0]?.pagination?.per_page
+      ? data.pages.length * data.pages[0].pagination.per_page
+      : undefined;
+  }, [data]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -55,8 +61,8 @@ export default function BrowsePage() {
     <PageWrapper className="pt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 pt-8 pb-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-card bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">
-            <Compass className="w-5 h-5 text-accent-glow stroke-[1.5]" />
+          <div className="w-10 h-10 rounded-card bg-surface/60 flex items-center justify-center border border-border-subtle text-text-primary">
+            <Compass className="w-5 h-5 stroke-[1.5]" />
           </div>
           <div>
             <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary">
@@ -69,9 +75,9 @@ export default function BrowsePage() {
         </div>
 
         <div className="mt-6 p-4 rounded-card bg-surface/60 border border-border-subtle backdrop-blur-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <SlidersHorizontal className="w-4 h-4 text-accent-glow stroke-[1.5]" />
-            <span className="text-xs font-body font-medium text-text-secondary uppercase tracking-wider">Filters</span>
+          <div className="flex items-center gap-2 mb-3 text-text-secondary">
+            <SlidersHorizontal className="w-4 h-4 stroke-[1.5]" />
+            <span className="text-xs font-body font-medium uppercase tracking-wider">Filters</span>
           </div>
           <FilterBar filters={filters} onChange={handleFilterChange} totalResults={totalResults} />
         </div>

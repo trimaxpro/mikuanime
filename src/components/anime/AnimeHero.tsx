@@ -10,7 +10,7 @@ import type { Anime } from '@/types/anime';
 import type { WatchlistStatus } from '@/types/user';
 import { useState } from 'react';
 
-const STATUS_OPTIONS: { value: WatchlistStatus; label: string; icon: any }[] = [
+const STATUS_OPTIONS: { value: WatchlistStatus; label: string; icon: typeof Eye }[] = [
   { value: 'watching', label: 'Watching', icon: Eye },
   { value: 'plan_to_watch', label: 'Plan to Watch', icon: Star },
   { value: 'completed', label: 'Completed', icon: CheckCircle },
@@ -76,7 +76,7 @@ export function AnimeHero({ anime }: AnimeHeroProps) {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {anime.genres.map((g) => (
-                <Badge key={g.mal_id} variant="violet">{g.name}</Badge>
+                <Badge key={g.name} variant="violet">{g.name}</Badge>
               ))}
             </div>
 

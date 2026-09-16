@@ -80,7 +80,9 @@ function getLocal(id: number): string | null | undefined {
 function setLocal(id: number, url: string | null) {
   try {
     localStorage.setItem(CACHE_PREFIX + id, JSON.stringify({ url, ts: Date.now() }));
-  } catch {}
+  } catch {
+    // Ignore storage quota or private browsing exceptions
+  }
 }
 
 export async function fetchThemeUrl(anilistId: number): Promise<string | null> {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Clock, Film, Trash2 } from 'lucide-react';
 import { ScrollableRow } from '@/components/ui/ScrollableRow';
 import { useWatchHistory } from '@/hooks/useWatchHistory';
@@ -24,38 +24,56 @@ export function ContinueWatching() {
   if (entries.length === 0) return null;
 
   return (
-    <section className="py-6 px-4 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-4">
+    <section className="pt-4 pb-2.5 px-4 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-2.5">
         <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary flex items-center gap-2">
-          <Clock className="w-5 h-5 text-accent-glow stroke-[1.5]" />
+          <Clock className="w-5 h-5 stroke-[1.5]" />
           Continue Watching
         </h2>
-        {confirming ? (
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-text-muted">Clear all?</span>
-            <button
-              onClick={() => { clearWatchHistory(); setConfirming(false); }}
-              className="text-xs px-2 py-1 rounded bg-accent-rose/20 text-accent-rose hover:bg-accent-rose/30 transition-colors"
-            >
-              Yes
-            </button>
-            <button
-              onClick={() => setConfirming(false)}
-              className="text-xs px-2 py-1 rounded bg-elevated text-text-secondary hover:text-text-primary transition-colors"
-            >
-              No
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={() => setConfirming(true)}
-            className="flex items-center gap-1.5 text-xs text-text-muted hover:text-accent-rose transition-colors"
-            title="Clear watch history"
-          >
-            <Trash2 className="w-3.5 h-3.5 stroke-[1.5]" />
-            Clear
-          </button>
-        )}
+        <div className="flex items-center">
+          <AnimatePresence mode="wait">
+            {confirming ? (
+              <motion.div
+                key="confirm"
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center gap-2 px-3 py-1 rounded-full bg-surface/90 border border-accent-rose/30 shadow-lg backdrop-blur-md"
+              >
+                <span className="text-xs text-text-secondary font-medium">Clear all?</span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => { clearWatchHistory(); setConfirming(false); }}
+                    className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent-rose text-white hover:bg-accent-rose/90 shadow-sm hover:shadow-glow-sm transition-all hover:scale-105 active:scale-95"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => setConfirming(false)}
+                    className="px-2 py-0.5 rounded-full text-xs font-medium text-text-muted hover:text-text-primary hover:bg-elevated transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.button
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => setConfirming(true)}
+                className="group inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-text-secondary hover:text-accent-rose bg-surface/50 hover:bg-accent-rose/10 border border-border-subtle/80 hover:border-accent-rose/40 transition-all duration-200 backdrop-blur-sm shadow-sm hover:shadow-glow-sm"
+                title="Clear watch history"
+              >
+                <Trash2 className="w-3.5 h-3.5 stroke-[1.7] text-text-muted group-hover:text-accent-rose transition-colors" />
+                <span>Clear History</span>
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       <ScrollableRow>
         {entries.map((entry, i) => (
@@ -64,7 +82,7 @@ export function ContinueWatching() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, duration: 0.3 }}
-            className="flex-shrink-0 w-[160px] md:w-[180px] group relative flex flex-col gap-2"
+            className="flex-shrink-0 w-[185px] sm:w-[205px] md:w-[225px] lg:w-[235px] group relative flex flex-col gap-2"
           >
             <Link
               to={`/watch/${entry.malId}/${entry.episode}`}

@@ -17,8 +17,8 @@ export function RelatedAnime({ anime }: RelatedAnimeProps) {
         <AnimeCard
           key={item.mal_id}
           anime={item}
-          onAddToWatchlist={(_malId) => {
-            toggleWatchlist({ malId: item.mal_id, title: item.title_english || item.title, image: item.images.jpg?.image_url || '' });
+          onAddToWatchlist={(malId) => {
+            toggleWatchlist({ malId, title: item.title_english || item.title, image: item.images.jpg?.image_url || '' });
           }}
         />
       ))}

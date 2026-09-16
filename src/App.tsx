@@ -8,7 +8,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AuthProvider } from '@/hooks/useAuth';
 
-const HomePage = lazy(() => import('@/pages/HomePage'));
+import HomePage from '@/pages/HomePage';
 const BrowsePage = lazy(() => import('@/pages/BrowsePage'));
 const AnimePage = lazy(() => import('@/pages/AnimePage'));
 const WatchPage = lazy(() => import('@/pages/WatchPage'));

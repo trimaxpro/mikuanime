@@ -1,82 +1,105 @@
-import { Link } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { Shield, Lock, Eye, Cookie, Mail, ArrowLeft } from 'lucide-react';
+import { Shield, Lock, Eye, Cookie, Server, CheckCircle2, Sparkles, UserCheck } from 'lucide-react';
 
 const sections = [
   {
     icon: Lock,
-    title: 'Data We Collect',
-    content: 'When you use MikuAnime, we may collect minimal information required to provide our service: your watch history and watchlist are stored locally in your browser using localStorage. If you create an account, we store your email address and display name securely via Firebase Authentication.',
+    title: 'Data Collection & Privacy by Design',
+    content:
+      'MikuAnime is built with a privacy-first mindset. We collect the bare minimum information required to deliver our service. Your watch history, watchlist, audio preferences, and playback positions are saved directly on your local device rather than being tracked on remote profiling databases.',
   },
   {
     icon: Eye,
-    title: 'How We Use Your Data',
-    content: 'Your data is used solely to personalize your experience — remembering your watch progress, maintaining your watchlist, and saving your preferences. We do not sell, rent, or share your personal information with third parties for marketing purposes.',
+    title: 'How Your Information Is Used',
+    content:
+      'Your preferences are used exclusively to power your personal user experience — allowing you to resume episodes where you left off, organize your bookmarks, and remember your preferred viewing options. We never sell, rent, monetize, or disclose your personal data to marketing brokers or third-party advertisers.',
   },
   {
     icon: Cookie,
-    title: 'Cookies & Local Storage',
-    content: 'MikuAnime uses localStorage to persist your preferences, watch history, and watchlist. We do not use tracking cookies or third-party analytics. Firebase Authentication may set necessary cookies for session management if you create an account.',
+    title: 'Local Device Storage Policy',
+    content:
+      'MikuAnime does not deploy persistent third-party advertising or cross-site tracking cookies. We utilize standard local device storage to remember your chosen theme, viewing progress, and audio settings across browsing sessions. If you create an account, secure authentication tokens are maintained strictly for your active session.',
+  },
+  {
+    icon: Server,
+    title: 'Third-Party Content Providers',
+    content:
+      'MikuAnime organizes links to third-party streaming providers. When accessing third-party media, your connection interacts directly with external provider networks. These independent platforms maintain their own respective privacy policies and data collection standards independent of MikuAnime.',
+  },
+  {
+    icon: UserCheck,
+    title: 'User Rights & Complete Data Control',
+    content:
+      'You maintain total control and ownership of your viewing data at all times. You can easily reset or clear your watch history and saved list at any moment with a single click. Registered users may also request complete account deletion and credential erasure at any time.',
   },
   {
     icon: Shield,
-    title: 'Third-Party Services',
-    content: 'MikuAnime embeds content from third-party video providers. These providers have their own privacy policies governing data collection. We also use Firebase (Google) for authentication — their privacy policy applies to that portion of our service.',
-  },
-  {
-    icon: Mail,
-    title: 'Contact Us',
-    content: 'If you have questions about this privacy policy or your data, you can reach out to us. We are committed to addressing any concerns regarding your privacy and data protection.',
+    title: 'Security & Encryption',
+    content:
+      'All traffic to MikuAnime is transmitted over secure, encrypted HTTPS/TLS connections. User accounts and authentication credentials are encrypted and managed with industry-standard cryptographic protocols to safeguard account integrity.',
   },
 ];
 
 export default function PrivacyPage() {
   return (
-    <PageWrapper className="pt-24 pb-16">
-      <div className="max-w-3xl mx-auto px-4">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-accent-glow transition-colors mb-6">
-          <ArrowLeft className="w-4 h-4 stroke-[1.5]" />
-          Back to Home
-        </Link>
+    <PageWrapper className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Header Hero Banner */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-surface/90 via-surface/60 to-surface/30 border border-border-subtle/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-accent-glow/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-card bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">
-            <Shield className="w-5 h-5 text-accent-glow stroke-[1.5]" />
-          </div>
-          <div>
-            <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary">
+          <div className="relative z-10 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-primary/10 border border-accent-primary/30 text-accent-glow text-xs font-semibold uppercase tracking-wider mb-4">
+              <Sparkles className="w-3.5 h-3.5" /> Privacy &amp; Security
+            </div>
+
+            <h1 className="font-display font-black text-3xl sm:text-4xl text-text-primary tracking-tight">
               Privacy <span className="text-accent-glow">Policy</span>
             </h1>
-            <p className="text-text-secondary text-sm font-body mt-0.5">
-              Last updated: June 2026
+
+            <p className="text-sm sm:text-base text-text-secondary mt-3 leading-relaxed">
+              Your privacy is paramount. Discover how MikuAnime handles your preferences, local data, and account information with transparency.
             </p>
           </div>
         </div>
 
-        <p className="text-text-secondary text-sm font-body mt-4 leading-relaxed">
-          Your privacy matters to us. This policy outlines what information we collect, how we use it, and your rights regarding your data when using MikuAnime.
-        </p>
-
-        <div className="mt-8 space-y-4">
-          {sections.map((section) => (
-            <div key={section.title} className="glass-card rounded-card p-5 border border-border-subtle">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 w-8 h-8 rounded-card bg-accent-primary/10 flex items-center justify-center flex-shrink-0">
-                  <section.icon className="w-4 h-4 text-accent-glow stroke-[1.5]" />
-                </div>
-                <div>
-                  <h2 className="font-display font-semibold text-base text-text-primary mb-1.5">{section.title}</h2>
-                  <p className="text-sm text-text-secondary font-body leading-relaxed">{section.content}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Privacy Pledge Banner */}
+        <div className="glass-card rounded-2xl p-5 border border-accent-primary/30 bg-accent-primary/5 flex items-start gap-4">
+          <div className="w-9 h-9 rounded-xl bg-accent-primary/20 border border-accent-primary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckCircle2 className="w-5 h-5 text-accent-glow" />
+          </div>
+          <div className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+            <p className="font-semibold text-text-primary mb-0.5">Zero Tracking Advertising Pledge</p>
+            We do not monetize your browsing habits or sell your viewing telemetry to data brokers. Your watchlist and episode progress are stored locally on your device unless you choose to sync via an authenticated account.
+          </div>
         </div>
 
-        <div className="mt-8 p-5 rounded-card bg-elevated/50 border border-border-subtle text-center">
-          <p className="text-sm text-text-muted font-body">
-            We are committed to protecting your privacy. If you have any concerns, please reach out.
-          </p>
+        {/* Sections */}
+        <div className="space-y-4">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            return (
+              <div
+                key={section.title}
+                className="group glass-card rounded-2xl p-5 sm:p-6 border border-border-subtle/80 hover:border-accent-primary/40 hover:bg-white/[0.04] transition-all duration-300"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-accent-primary/40 transition-all duration-300">
+                    <Icon className="w-5 h-5 text-accent-glow stroke-[1.6]" />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h2 className="font-display font-bold text-base sm:text-lg text-text-primary mb-1.5">
+                      {section.title}
+                    </h2>
+                    <p className="text-sm text-text-secondary font-body leading-relaxed">
+                      {section.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </PageWrapper>

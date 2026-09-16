@@ -56,8 +56,10 @@ function AnimeCardInner({ anime, onAddToWatchlist, className }: AnimeCardProps) 
           </button>
         </div>
 
-        <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center gap-1.5 text-xs text-text-secondary">
-          {anime.episodes && <span>{anime.episodes} eps</span>}
+        <div className="absolute bottom-2 left-2 flex items-center gap-1.5 text-xs text-text-secondary">
+          {(anime.episodes || anime.airing_episode) && (
+            <span>{anime.episodes || anime.airing_episode} eps</span>
+          )}
         </div>
       </Link>
 

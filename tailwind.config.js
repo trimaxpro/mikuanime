@@ -17,6 +17,9 @@ export default {
         'border-subtle': '#1F1F1F',
         'border-glow': 'rgba(57,197,207,0.3)',
       },
+      maxWidth: {
+        '7xl': '96rem', // 1536px (20% increase: 10% on each side from standard 80rem / 1280px)
+      },
       fontFamily: {
         display: ['Oswald', 'Inter', 'sans-serif'],
         body: ['Inter', 'sans-serif'],

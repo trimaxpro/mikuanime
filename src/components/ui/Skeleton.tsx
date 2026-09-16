@@ -15,7 +15,7 @@ export function AnimeCardSkeleton() {
 }
 
 export function HeroSkeleton() {
-  return <Skeleton className="h-[65vh] w-full rounded-hero" />;
+  return <Skeleton className="h-[48vh] sm:h-[50vh] min-h-[380px] max-h-[500px] w-full rounded-hero" />;
 }
 
 export function EpisodeSkeleton() {

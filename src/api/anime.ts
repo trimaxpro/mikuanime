@@ -57,6 +57,7 @@ export interface BrowseParams {
   year?: string;
   score?: string;
   genres?: string[];
+  tags?: string[];
   sort?: string;
   page?: number;
   perPage?: number;
@@ -79,6 +80,7 @@ export async function getBrowse(params: BrowseParams): Promise<BrowseResult> {
   if (params.year) query.set('year', params.year);
   if (params.score) query.set('score', params.score);
   if (params.genres?.length) query.set('genres', params.genres.join(','));
+  if (params.tags?.length) query.set('tags', params.tags.join(','));
   if (params.sort) {
     const sortMap: Record<string, string> = { popularity: 'popularity', score: 'score', start_date: 'start_date', title: 'title', trending: 'trending', favourites: 'favourites' };
     query.set('sort', sortMap[params.sort] || 'popularity');

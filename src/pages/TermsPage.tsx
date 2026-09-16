@@ -1,82 +1,105 @@
-import { Link } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { FileText, Scale, Shield, AlertCircle, ArrowLeft } from 'lucide-react';
+import { FileText, Scale, Shield, AlertCircle, Sparkles, CheckCircle2, HelpCircle } from 'lucide-react';
 
 const sections = [
   {
     icon: Scale,
     title: 'Acceptance of Terms',
-    content: 'By accessing or using MikuAnime, you agree to be bound by these Terms of Service. If you do not agree, please do not use our service. We reserve the right to update these terms at any time; continued use constitutes acceptance of changes.',
+    content:
+      'By accessing or using MikuAnime, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our service. We reserve the right to revise or update these terms at any time; your continued use of the platform constitutes full acceptance of any modifications.',
   },
   {
     icon: AlertCircle,
-    title: 'Service Description',
-    content: 'MikuAnime is a streaming aggregator that provides links to anime content hosted on third-party platforms. We do not host, upload, store, or distribute any video content on our servers. All media is embedded from external sources and we have no control over their availability or legality.',
+    title: 'Service Description & Third-Party Content',
+    content:
+      'MikuAnime functions exclusively as an index and streaming directory providing links to anime media hosted on independent third-party networks. We do not upload, store, host, manage, or distribute any copyrighted media or video files on our infrastructure. All content is embedded directly from external third-party video providers over which MikuAnime exercises no control or ownership.',
   },
   {
     icon: Shield,
-    title: 'User Responsibilities',
-    content: 'You agree to use MikuAnime for personal, non-commercial entertainment purposes only. You must not attempt to bypass any technical measures, scrape the site, or use automated tools to access our service. You are responsible for complying with all applicable laws in your jurisdiction.',
+    title: 'User Responsibilities & Acceptable Use',
+    content:
+      'You agree to utilize MikuAnime solely for personal, non-commercial entertainment purposes. You agree not to bypass security controls, reverse engineer, scrape, flood, or use automated bots or scripts to access our services. You remain individually responsible for ensuring your use complies with local laws in your jurisdiction.',
   },
   {
     icon: FileText,
-    title: 'Intellectual Property',
-    content: 'All anime titles, images, and related media are the property of their respective owners. MikuAnime does not claim ownership of any content displayed on this site. Trademarks, logos, and brand names are used for identification purposes only.',
+    title: 'Intellectual Property Rights',
+    content:
+      'All anime titles, cover artwork, trademarks, logos, character designs, and promotional images displayed on MikuAnime belong to their respective copyright holders and licensors. MikuAnime does not claim ownership of any third-party intellectual property. Media assets are referenced strictly for descriptive and identification purposes under fair use principles.',
   },
   {
     icon: Scale,
-    title: 'Limitation of Liability',
-    content: 'MikuAnime is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use or inability to use our service. We do not guarantee uninterrupted access, and we are not responsible for content hosted on third-party platforms.',
+    title: 'Limitation of Liability & As-Is Warranty',
+    content:
+      'MikuAnime is provided strictly on an "as is" and "as available" basis without express or implied warranties of any kind. We make no guarantee regarding unbroken uptime, stream latency, or content continuity. Under no circumstance shall MikuAnime or its contributors be held liable for damages resulting from platform use or third-party links.',
+  },
+  {
+    icon: HelpCircle,
+    title: 'DMCA & Copyright Inquiries',
+    content:
+      'Because MikuAnime does not host, store, or transmit any media on its servers, copyright notices regarding specific media files must be directed to the third-party platforms hosting the content. We respect intellectual property rights and promptly review any verifiable reports regarding invalid or infringing index references.',
   },
 ];
 
 export default function TermsPage() {
   return (
-    <PageWrapper className="pt-24 pb-16">
-      <div className="max-w-3xl mx-auto px-4">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-accent-glow transition-colors mb-6">
-          <ArrowLeft className="w-4 h-4 stroke-[1.5]" />
-          Back to Home
-        </Link>
+    <PageWrapper className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Header Hero Banner */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-surface/90 via-surface/60 to-surface/30 border border-border-subtle/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-accent-glow/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-card bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">
-            <FileText className="w-5 h-5 text-accent-glow stroke-[1.5]" />
-          </div>
-          <div>
-            <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary">
+          <div className="relative z-10 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-primary/10 border border-accent-primary/30 text-accent-glow text-xs font-semibold uppercase tracking-wider mb-4">
+              <Sparkles className="w-3.5 h-3.5" /> Legal Documentation
+            </div>
+
+            <h1 className="font-display font-black text-3xl sm:text-4xl text-text-primary tracking-tight">
               Terms of <span className="text-accent-glow">Service</span>
             </h1>
-            <p className="text-text-secondary text-sm font-body mt-0.5">
-              Last updated: June 2026
+
+            <p className="text-sm sm:text-base text-text-secondary mt-3 leading-relaxed">
+              Please review these terms governing your access to and use of MikuAnime. By continuing to use the site, you agree to these conditions.
             </p>
           </div>
         </div>
 
-        <p className="text-text-secondary text-sm font-body mt-4 leading-relaxed">
-          Please read these terms carefully before using MikuAnime. By using our service, you acknowledge that you have read, understood, and agree to be bound by these terms.
-        </p>
-
-        <div className="mt-8 space-y-4">
-          {sections.map((section) => (
-            <div key={section.title} className="glass-card rounded-card p-5 border border-border-subtle">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 w-8 h-8 rounded-card bg-accent-primary/10 flex items-center justify-center flex-shrink-0">
-                  <section.icon className="w-4 h-4 text-accent-glow stroke-[1.5]" />
-                </div>
-                <div>
-                  <h2 className="font-display font-semibold text-base text-text-primary mb-1.5">{section.title}</h2>
-                  <p className="text-sm text-text-secondary font-body leading-relaxed">{section.content}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Disclaimer Banner */}
+        <div className="glass-card rounded-2xl p-5 border border-accent-primary/30 bg-accent-primary/5 flex items-start gap-4">
+          <div className="w-9 h-9 rounded-xl bg-accent-primary/20 border border-accent-primary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckCircle2 className="w-5 h-5 text-accent-glow" />
+          </div>
+          <div className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+            <p className="font-semibold text-text-primary mb-0.5">Non-Hosting Aggregator Notice</p>
+            MikuAnime is a media index and user-interface layer. No video files, torrents, or streams are stored on or transmitted from our servers. All video streams are embedded from third-party hosting networks.
+          </div>
         </div>
 
-        <div className="mt-8 p-5 rounded-card bg-elevated/50 border border-border-subtle text-center">
-          <p className="text-sm text-text-muted font-body">
-            If you have any questions about these terms, please contact us.
-          </p>
+        {/* Sections */}
+        <div className="space-y-4">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            return (
+              <div
+                key={section.title}
+                className="group glass-card rounded-2xl p-5 sm:p-6 border border-border-subtle/80 hover:border-accent-primary/40 hover:bg-white/[0.04] transition-all duration-300"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-accent-primary/40 transition-all duration-300">
+                    <Icon className="w-5 h-5 text-accent-glow stroke-[1.6]" />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h2 className="font-display font-bold text-base sm:text-lg text-text-primary mb-1.5">
+                      {section.title}
+                    </h2>
+                    <p className="text-sm text-text-secondary font-body leading-relaxed">
+                      {section.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </PageWrapper>

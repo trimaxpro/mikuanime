@@ -99,22 +99,49 @@ export function VideoPlayer({ src, embedUrl, onEnded, skipTimes }: VideoPlayerPr
       if (e.key === ' ' || e.key === 'k') { e.preventDefault(); togglePlay(); }
       if (e.key === 'f') { e.preventDefault(); toggleFullscreen(); }
       if (e.key === 'm') { e.preventDefault(); toggleMute(); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); videoRef.current?.addEventListener; videoRef.current && (videoRef.current.currentTime += 10); }
-      if (e.key === 'ArrowLeft') { e.preventDefault(); videoRef.current && (videoRef.current.currentTime -= 10); }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (videoRef.current) videoRef.current.currentTime += 10;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (videoRef.current) videoRef.current.currentTime -= 10;
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [togglePlay, toggleFullscreen, toggleMute]);
 
+  useEffect(() => {
+    if (!embedUrl) return;
+
+    const handleMessage = (e: MessageEvent) => {
+      if (!e.data || typeof e.data !== 'object') return;
+      const { type, currentTime } = e.data as { type?: string; currentTime?: number };
+      if (type === 'aniembed:play') {
+        store.setPlaying(true);
+        if (typeof currentTime === 'number' && Number.isFinite(currentTime)) {
+          store.setCurrentTime(currentTime);
+        }
+      }
+      if (type === 'aniembed:ended') {
+        store.setPlaying(false);
+        onEnded?.();
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [embedUrl, onEnded, store]);
+
   if (embedUrl) {
     return (
-      <div className="relative bg-black rounded-hero overflow-hidden aspect-video border border-border-subtle">
+      <div className="relative w-full aspect-video bg-black rounded-hero overflow-hidden border border-border-subtle">
         <iframe
           src={embedUrl}
-          className="w-full h-full"
+          className="absolute inset-0 w-full h-full border-0"
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          allowFullScreen
-          referrerPolicy="origin"
+          referrerPolicy="strict-origin-when-cross-origin"
           title="Video player"
         />
       </div>
@@ -131,7 +158,7 @@ export function VideoPlayer({ src, embedUrl, onEnded, skipTimes }: VideoPlayerPr
   return (
     <div
       ref={containerRef}
-      className={`relative bg-black rounded-hero overflow-hidden group ${store.isTheaterMode ? 'max-w-full' : 'max-w-[900px] mx-auto'}`}
+      className={`relative bg-black rounded-hero overflow-hidden group ${store.isTheaterMode ? 'max-w-full' : 'w-full'}`}
       onMouseMove={showControls}
       onMouseLeave={() => setControlsVisible(false)}
     >

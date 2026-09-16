@@ -4,6 +4,7 @@ import { auth, db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useUserStore } from '@/stores/userStore';
 import type { User } from 'firebase/auth';
+import type { WatchlistEntry } from '@/types/user';
 
 interface AuthContextValue {
   user: User | null;
@@ -31,9 +32,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (db) {
           try {
             const snapshot = await getDocs(collection(db, 'users', u.uid, 'watchlist'));
-            const list: any[] = [];
+            const list: WatchlistEntry[] = [];
             snapshot.forEach((doc) => {
-              list.push(doc.data());
+              list.push(doc.data() as WatchlistEntry);
             });
             useUserStore.getState().setWatchlist(list);
           } catch (e) {
@@ -85,6 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={{ user, loading, login, register, signInWithGoogle, sendVerificationEmail, reloadUser, logout }}>{children}</AuthContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');

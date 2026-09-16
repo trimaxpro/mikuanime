@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ChevronDown, Star, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -18,17 +18,42 @@ interface HeroSectionProps {
 function HeroBackground({ anime: featured }: { anime: Anime }) {
   const { data: themeUrl } = useAnimeTheme(featured?.anilist_id);
   const [ready, setReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const bgImage = featured?.banner_image || featured?.images?.jpg?.large_image_url || featured?.images?.jpg?.image_url;
+
+  useEffect(() => {
+    const v = videoRef.current;
+    return () => {
+      if (v) {
+        v.pause();
+        v.removeAttribute('src');
+        v.load();
+      }
+    };
+  }, []);
 
   return (
     <div className="absolute inset-0">
+      {bgImage ? (
+        <img
+          src={bgImage}
+          alt=""
+          loading="eager"
+          decoding="async"
+          ref={(img) => { if (img?.complete) setReady(true); }}
+          className={`absolute inset-0 w-full h-full object-cover scale-[1.02] transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          onLoad={() => setReady(true)}
+        />
+      ) : null}
       {themeUrl ? (
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
-          className={`absolute inset-0 w-full h-full object-cover scale-[1.02] transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          preload="none"
+          className={`absolute inset-0 w-full h-full object-cover scale-[1.02] opacity-0 transition-opacity duration-500 ${ready ? 'opacity-100' : ''}`}
           onCanPlay={(e) => { setReady(true); (e.target as HTMLVideoElement).play().catch(() => {}); }}
         >
           <source src={themeUrl} type="video/webm" />
@@ -59,7 +84,7 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
   if (!featured) return null;
 
   return (
-    <div className="relative h-[65vh] min-h-[500px] overflow-hidden grain-overlay bg-void">
+    <div className="relative h-[48vh] sm:h-[50vh] min-h-[380px] max-h-[500px] overflow-hidden grain-overlay bg-void">
       <AnimatePresence mode="wait">
         <motion.div
           key={featured.mal_id}
@@ -75,20 +100,20 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
 
       <DotPattern opacity={0.4} />
 
-      <div className="relative z-10 h-full flex items-center">
+      <div className="relative z-10 h-full flex items-center pt-8">
         <div className="max-w-7xl mx-auto px-4 w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={featured.mal_id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35 }}
               className="max-w-2xl"
             >
-              <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
                 {featured.genres.slice(0, 3).map((g) => (
-                  <Badge key={g.mal_id} variant="violet">{g.name}</Badge>
+                  <Badge key={g.name} variant="violet">{g.name}</Badge>
                 ))}
                 {featured.score && (
                   <Badge variant="amber">
@@ -96,35 +121,35 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
                     {featured.score.toFixed(1)}
                   </Badge>
                 )}
-                {featured.episodes && (
-                  <Badge>{featured.episodes} Episodes</Badge>
+                {(featured.episodes || featured.airing_episode) && (
+                  <Badge>{featured.episodes || featured.airing_episode} Episodes</Badge>
                 )}
               </div>
 
-              <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-text-primary leading-[1.1] mb-3">
+              <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] text-text-primary leading-[1.15] mb-2 line-clamp-2">
                 {featured.title_english || featured.title}
               </h1>
 
               {featured.title_japanese && (
-                <p className="text-text-muted text-lg mb-4 font-body">{featured.title_japanese}</p>
+                <p className="text-text-muted text-sm sm:text-base mb-2 font-body line-clamp-1">{featured.title_japanese}</p>
               )}
 
               {featured.synopsis && (
-                <p className="text-text-secondary text-sm md:text-base line-clamp-4 mb-6 max-w-xl">
+                <p className="text-text-secondary text-xs sm:text-sm line-clamp-2 md:line-clamp-3 mb-4 max-w-xl">
                   {featured.synopsis}
                 </p>
               )}
 
               <div className="flex items-center gap-3">
-                <Link to={featured.episodes ? `/watch/${featured.mal_id}/1` : `/anime/${featured.mal_id}`}>
-                  <Button variant="primary" size="lg">
-                    <Play className="w-5 h-5 fill-white" />
+                <Link to={(featured.episodes || featured.airing_episode) ? `/watch/${featured.mal_id}/1` : `/anime/${featured.mal_id}`}>
+                  <Button variant="primary" size="md">
+                    <Play className="w-4 h-4 fill-white" />
                     Watch Now
                   </Button>
                 </Link>
                 <Link to={`/anime/${featured.mal_id}`}>
-                  <Button variant="secondary" size="lg">
-                    <Info className="w-5 h-5 stroke-[1.5]" />
+                  <Button variant="secondary" size="md">
+                    <Info className="w-4 h-4 stroke-[1.5]" />
                     Details
                   </Button>
                 </Link>
@@ -134,7 +159,7 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
         {anime.slice(0, 5).map((_, i) => (
           <button
             key={i}
@@ -148,11 +173,11 @@ export function HeroSection({ anime, isLoading }: HeroSectionProps) {
       </div>
 
       <motion.div
-        animate={{ y: [0, 8, 0] }}
+        animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 right-8 z-10"
+        className="absolute bottom-4 right-8 z-10 hidden sm:block"
       >
-        <ChevronDown className="w-6 h-6 text-text-muted stroke-[1.5]" />
+        <ChevronDown className="w-5 h-5 text-text-muted stroke-[1.5]" />
       </motion.div>
     </div>
   );

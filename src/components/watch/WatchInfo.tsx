@@ -7,7 +7,7 @@ import type { Episode } from '@/types/anime';
 import type { WatchlistStatus } from '@/types/user';
 import { cn } from '@/utils/cn';
 
-const STATUS_OPTIONS: { value: WatchlistStatus; label: string; icon: any }[] = [
+const STATUS_OPTIONS: { value: WatchlistStatus; label: string; icon: typeof Eye }[] = [
   { value: 'watching', label: 'Watching', icon: Eye },
   { value: 'plan_to_watch', label: 'Plan to Watch', icon: Star },
   { value: 'completed', label: 'Completed', icon: CheckCircle },

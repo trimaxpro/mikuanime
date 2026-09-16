@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AnimeHero } from '@/components/anime/AnimeHero';
@@ -13,11 +13,12 @@ import type { Anime } from '@/types/anime';
 
 export default function AnimePage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const animeId = Number(id);
 
   const detail = useAnimeDetail(animeId);
   const episodes = useAnimeEpisodes(animeId, 120000);
-  const genreIds = detail.data?.genres?.map((g) => g.mal_id).join(',') || '';
+  const genreIds = detail.data?.genres?.map((g) => g.name).join(',') || '';
   const similar = useQuery({
     queryKey: ['similar', animeId, genreIds],
     queryFn: async () => {
@@ -62,7 +63,7 @@ export default function AnimePage() {
           title="Anime not found"
           message="This anime could not be found. It may have been removed or the link is incorrect."
           actionLabel="Browse Anime"
-          onAction={() => window.location.href = '/browse'}
+          onAction={() => navigate('/browse')}
         />
       </PageWrapper>
     );
@@ -81,7 +82,7 @@ export default function AnimePage() {
         {visibleEpisodes && visibleEpisodes.length > 0 && (
           <section className="scroll-mt-20">
             <h2 className="font-display font-semibold text-xl text-text-primary mb-5 flex items-center gap-2">
-              <List className="w-5 h-5 text-accent-glow stroke-[1.5]" />
+              <List className="w-5 h-5 stroke-[1.5]" />
               Episodes
               <span className="text-sm font-mono font-medium text-text-muted ml-1">
                 {isAiring ? `${visibleEpisodes.length}/${episodes.data?.length}` : visibleEpisodes.length}
@@ -94,7 +95,7 @@ export default function AnimePage() {
         {anime.characters && anime.characters.length > 0 && (
           <section className="scroll-mt-20">
             <h2 className="font-display font-semibold text-xl text-text-primary mb-5 flex items-center gap-2">
-              <Users className="w-5 h-5 text-accent-glow stroke-[1.5]" />
+              <Users className="w-5 h-5 stroke-[1.5]" />
               Characters & Voice Actors
               <span className="text-sm font-mono font-medium text-text-muted ml-1">({anime.characters.length})</span>
             </h2>
@@ -105,7 +106,7 @@ export default function AnimePage() {
         {similar.data && similar.data.length > 0 && (
           <section className="scroll-mt-20">
             <div className="flex items-center gap-2 mb-5">
-              <ListVideo className="w-5 h-5 text-accent-glow stroke-[1.5]" />
+              <ListVideo className="w-5 h-5 stroke-[1.5] text-text-primary" />
               <h2 className="font-display font-semibold text-xl text-text-primary">More Like This</h2>
             </div>
             <div className="pl-7">

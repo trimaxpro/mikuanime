@@ -93,7 +93,7 @@ export function InfoPanel({ anime }: InfoPanelProps) {
             </h3>
             <div className="flex flex-wrap gap-2">
               {anime.studios.map((s) => (
-                <Badge key={s.mal_id} variant="violet">{s.name}</Badge>
+                <Badge key={s.name || s.mal_id} variant="violet">{s.name}</Badge>
               ))}
             </div>
           </motion.div>
@@ -107,10 +107,10 @@ export function InfoPanel({ anime }: InfoPanelProps) {
             </h3>
             <div className="flex flex-wrap gap-2">
               {anime.genres.map((g) => (
-                <Badge key={g.mal_id}>{g.name}</Badge>
+                <Badge key={g.name || g.mal_id}>{g.name}</Badge>
               ))}
               {anime.themes.map((t) => (
-                <Badge key={t.mal_id} variant="amber">{t.name}</Badge>
+                <Badge key={t.name || t.mal_id} variant="amber">{t.name}</Badge>
               ))}
             </div>
           </motion.div>

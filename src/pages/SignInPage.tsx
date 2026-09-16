@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/Button';
-import { Mail, Lock, Eye, EyeOff, LogIn, Tv, Sparkles, AlertCircle, Shield } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle } from 'lucide-react';
 import { DotPattern } from '@/components/ui/DotPattern';
 import { GoogleIcon } from '@/components/ui/GoogleIcon';
 
@@ -43,146 +42,134 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-      <DotPattern opacity={0.3} />
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-void">
+      <DotPattern opacity={0.25} />
 
-      {/* Decorative glow orbs */}
-      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-accent-primary/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-accent-primary/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Atmospheric theme ambient glow */}
+      <div className="absolute top-1/4 -left-32 w-80 h-80 bg-accent-primary/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent-violet/15 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-md relative z-10 animate-fade-in">
-        {/* Logo / Brand */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-elevated border border-border-subtle mb-4 shadow-glow-sm">
-            <Tv className="w-8 h-8 text-accent-glow" />
-          </div>
-          <h1 className="font-display font-bold text-3xl text-text-primary tracking-tight">
-            Welcome back
+      <div className="w-full max-w-[380px] relative z-10 animate-fade-in">
+        {/* Brand Logo & Title */}
+        <div className="flex items-center justify-center gap-3.5 mb-6">
+          <Link to="/" className="group flex-shrink-0" aria-label="Home">
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden ring-2 ring-accent-primary/40 shadow-glow-sm bg-void group-hover:ring-accent-primary transition-all duration-300">
+              <img src="/logo.gif" alt="MikuAnime" className="w-full h-full object-cover scale-105" />
+            </div>
+          </Link>
+          <h1 className="font-display font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">
+            Login
           </h1>
-          <p className="text-text-secondary mt-2 text-sm font-body">
-            Sign in to continue watching your favorite anime
-          </p>
         </div>
 
         {/* Main Card */}
-        <div className="glass-card rounded-modal p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="relative glass-card rounded-2xl p-6 sm:p-7 border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.7)] bg-surface/75 backdrop-blur-xl overflow-hidden">
+          {/* Subtle top glowing line */}
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-accent-primary/50 to-transparent" />
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-label font-medium text-text-secondary uppercase tracking-wider">
+              <label className="block text-sm font-body font-medium text-text-secondary">
                 Email
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted stroke-[1.5]" />
+              <div className="relative group">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted stroke-[1.5] transition-colors group-focus-within:text-accent-primary" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full bg-surface border border-border-subtle rounded-input pl-10 pr-3 py-2.5 text-sm text-text-primary placeholder:text-text-muted font-body transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:border-border-glow focus:border-accent-primary focus:shadow-glow-sm focus:outline-none"
+                  placeholder="name@example.com"
+                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-3.5 py-3 text-base text-text-primary placeholder:text-text-muted/60 font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-label font-medium text-text-secondary uppercase tracking-wider">
+              <label className="block text-sm font-body font-medium text-text-secondary">
                 Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted stroke-[1.5]" />
+              <div className="relative group">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted stroke-[1.5] transition-colors group-focus-within:text-accent-primary" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-full bg-surface border border-border-subtle rounded-input pl-10 pr-10 py-2.5 text-sm text-text-primary placeholder:text-text-muted font-body transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:border-border-glow focus:border-accent-primary focus:shadow-glow-sm focus:outline-none"
+                  placeholder="••••••••"
+                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-11 py-3 text-base text-text-primary placeholder:text-text-muted/60 font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors p-1"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-xs text-accent-rose bg-accent-rose/10 border border-accent-rose/20 rounded-input px-3 py-2">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                <span>{error}</span>
+              <div className="flex items-center gap-2.5 text-xs text-accent-rose bg-accent-rose/10 border border-accent-rose/25 rounded-xl px-3.5 py-2.5 animate-fade-in">
+                <AlertCircle className="w-4 h-4 shrink-0 text-accent-rose" />
+                <span className="leading-tight">{error}</span>
               </div>
             )}
 
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              size="lg"
-              className="w-full"
               disabled={isLoading}
+              className="w-full h-11 sm:h-12 rounded-xl bg-gradient-to-r from-accent-primary via-[#26f7dd] to-[#00e5c5] hover:opacity-95 text-white font-display font-bold text-sm sm:text-base tracking-wider uppercase flex items-center justify-center gap-2 shadow-glow-sm hover:shadow-glow transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 mt-2"
             >
               {isLoading ? (
-                <div className="w-4 h-4 border-2 border-text-primary/30 border-t-text-primary rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
-                <LogIn className="w-4 h-4" />
+                <LogIn className="w-4.5 h-4.5 stroke-[2.2]" />
               )}
-              {isLoading ? 'Signing in...' : 'Sign In'}
-            </Button>
+              <span>{isLoading ? 'Logging in...' : 'Login'}</span>
+            </button>
           </form>
 
           {/* Divider */}
-          <div className="relative my-6">
+          <div className="relative my-5">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-border-subtle" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-elevated px-3 text-text-muted font-label">or continue with</span>
+              <span className="bg-surface px-3 text-text-muted font-label uppercase tracking-wider text-[11px]">
+                or
+              </span>
             </div>
           </div>
 
           {/* Social Login */}
-          <div className="grid grid-cols-1 gap-3">
-            <Button
+          <div>
+            <button
               onClick={handleGoogle}
-              variant="secondary"
-              size="md"
-              className="w-full"
+              type="button"
               disabled={isLoading}
+              className="w-full h-11 sm:h-12 rounded-xl bg-elevated/70 hover:bg-elevated text-text-primary border border-white/[0.08] hover:border-white/[0.18] font-body font-medium text-sm sm:text-base flex items-center justify-center gap-3 transition-all hover:shadow-sm active:scale-[0.99] disabled:opacity-50"
             >
               <GoogleIcon />
-              <span>Google</span>
-            </Button>
+              <span>Continue with Google</span>
+            </button>
           </div>
         </div>
 
         {/* Footer Link */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-text-muted font-body">
+        <div className="text-center mt-5">
+          <p className="text-sm sm:text-base text-text-secondary font-body">
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="text-accent-glow hover:text-accent-primary transition-colors font-medium"
+              className="text-accent-glow hover:text-accent-primary transition-colors font-semibold ml-1 hover:underline"
             >
-              Create one
+              Register
             </Link>
           </p>
-        </div>
-
-        {/* Features */}
-        <div className="flex items-center justify-center gap-6 mt-8">
-          {[
-            { icon: Tv, label: 'Stream HD' },
-            { icon: Sparkles, label: 'Free Forever' },
-            { icon: Shield, label: 'Secure' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-1.5 text-text-muted">
-              <Icon className="w-3.5 h-3.5" />
-              <span className="text-xs font-label">{label}</span>
-            </div>
-          ))}
         </div>
       </div>
     </div>
