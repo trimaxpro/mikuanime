@@ -61,8 +61,8 @@ export default function BrowsePage() {
     <PageWrapper className="pt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 pt-8 pb-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-card bg-surface/60 flex items-center justify-center border border-border-subtle text-text-primary">
-            <Compass className="w-5 h-5 stroke-[1.5]" />
+          <div className="w-10 h-10 rounded-card bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">
+            <Compass className="w-5 h-5 text-accent-glow stroke-[1.5]" />
           </div>
           <div>
             <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary">
@@ -75,9 +75,9 @@ export default function BrowsePage() {
         </div>
 
         <div className="mt-6 p-4 rounded-card bg-surface/60 border border-border-subtle backdrop-blur-sm">
-          <div className="flex items-center gap-2 mb-3 text-text-secondary">
-            <SlidersHorizontal className="w-4 h-4 stroke-[1.5]" />
-            <span className="text-xs font-body font-medium uppercase tracking-wider">Filters</span>
+          <div className="flex items-center gap-2 mb-3">
+            <SlidersHorizontal className="w-4 h-4 text-accent-glow stroke-[1.5]" />
+            <span className="text-xs font-body font-medium text-text-secondary uppercase tracking-wider">Filters</span>
           </div>
           <FilterBar filters={filters} onChange={handleFilterChange} totalResults={totalResults} />
         </div>

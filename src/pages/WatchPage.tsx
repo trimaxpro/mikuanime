@@ -282,7 +282,7 @@ export default function WatchPage() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-display font-semibold text-sm text-text-primary flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 stroke-[1.5]" />
+                    <Sparkles className="w-3.5 h-3.5 text-accent-glow stroke-[1.5]" />
                     Episodes
                   </h2>
                   {episodes.data && (
@@ -329,7 +329,7 @@ export default function WatchPage() {
         {similar.data && similar.data.length > 0 && (
           <div className="mt-8 pt-8 border-t border-border-subtle">
             <h2 className="font-display font-semibold text-lg text-text-primary mb-4 flex items-center gap-1.5">
-              <ListVideo className="w-4 h-4 stroke-[1.5]" />
+              <ListVideo className="w-4 h-4 text-accent-glow stroke-[1.5]" />
               More Like This
             </h2>
             <ScrollableRow>

@@ -23,7 +23,7 @@ export function TrendingRow({ title, anime, isLoading, showRank = false, fetchNe
 
   return (
     <section className="pt-2 pb-2.5 px-4 max-w-7xl mx-auto">
-      <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-2.5 flex items-center gap-2"><TitleIcon className="w-5 h-5 stroke-[1.5]" /> {title}</h2>
+      <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-2.5 flex items-center gap-2"><TitleIcon className="w-5 h-5 text-accent-glow stroke-[1.5]" /> {title}</h2>
       {isLoading ? (
         <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 6 }).map((_, i) => (

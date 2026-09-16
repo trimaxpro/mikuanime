@@ -82,7 +82,7 @@ export default function AnimePage() {
         {visibleEpisodes && visibleEpisodes.length > 0 && (
           <section className="scroll-mt-20">
             <h2 className="font-display font-semibold text-xl text-text-primary mb-5 flex items-center gap-2">
-              <List className="w-5 h-5 stroke-[1.5]" />
+              <List className="w-5 h-5 text-accent-glow stroke-[1.5]" />
               Episodes
               <span className="text-sm font-mono font-medium text-text-muted ml-1">
                 {isAiring ? `${visibleEpisodes.length}/${episodes.data?.length}` : visibleEpisodes.length}
@@ -95,7 +95,7 @@ export default function AnimePage() {
         {anime.characters && anime.characters.length > 0 && (
           <section className="scroll-mt-20">
             <h2 className="font-display font-semibold text-xl text-text-primary mb-5 flex items-center gap-2">
-              <Users className="w-5 h-5 stroke-[1.5]" />
+              <Users className="w-5 h-5 text-accent-glow stroke-[1.5]" />
               Characters & Voice Actors
               <span className="text-sm font-mono font-medium text-text-muted ml-1">({anime.characters.length})</span>
             </h2>
@@ -106,7 +106,7 @@ export default function AnimePage() {
         {similar.data && similar.data.length > 0 && (
           <section className="scroll-mt-20">
             <div className="flex items-center gap-2 mb-5">
-              <ListVideo className="w-5 h-5 stroke-[1.5] text-text-primary" />
+              <ListVideo className="w-5 h-5 text-accent-glow stroke-[1.5]" />
               <h2 className="font-display font-semibold text-xl text-text-primary">More Like This</h2>
             </div>
             <div className="pl-7">

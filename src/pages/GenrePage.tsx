@@ -105,11 +105,11 @@ export default function GenrePage() {
         <DotPattern opacity={0.3} />
         <div className="relative z-10 max-w-7xl mx-auto">
           <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary ml-5 flex items-center gap-3">
-            <Tag className="w-8 h-8 stroke-[1.5]" />
+            <Tag className="w-8 h-8 text-accent-glow stroke-[1.5]" />
             {genre.name} Anime
           </h1>
           <p className="text-text-secondary text-sm mt-1 ml-5 flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 stroke-[1.5]" />
+            <Sparkles className="w-4 h-4 text-accent-glow stroke-[1.5]" />
             Explore top and trending {genre.name.toLowerCase()} titles
           </p>
         </div>

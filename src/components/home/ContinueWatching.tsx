@@ -27,7 +27,7 @@ export function ContinueWatching() {
     <section className="pt-4 pb-2.5 px-4 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-2.5">
         <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary flex items-center gap-2">
-          <Clock className="w-5 h-5 stroke-[1.5]" />
+          <Clock className="w-5 h-5 text-accent-glow stroke-[1.5]" />
           Continue Watching
         </h2>
         <div className="flex items-center">
