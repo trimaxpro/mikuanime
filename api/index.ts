@@ -316,7 +316,7 @@ export default async function handler(req: any, res: any) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   let pathname = url.pathname.replace(/^\/api/, "") || "/";
   const rawPath = url.searchParams.get("path");
-  if (rawPath && rawPath.startsWith("/")) pathname = rawPath;
+  if (rawPath) pathname = rawPath.startsWith("/") ? rawPath : "/" + rawPath;
   pathname = pathname.replace(/\/index(\.ts)?$/, "") || "/";
   pathname = pathname.replace(/\/\[\.\.\.path\](\.ts)?$/, "") || "/";
   const p = url.searchParams;
