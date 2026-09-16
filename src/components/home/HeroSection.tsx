@@ -89,12 +89,11 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
 
   const currentSlide = featuredList[page] || featuredList[0];
 
-  // HD background priority: banner (1920px landscape) > hi-res cover.
-  // Falls back through the chain automatically if a URL 404s/broken.
+  // HD banner (native 1900×400). Covers are only 460px — never stretched
+  // full-bleed; banner-less titles render a poster layout instead (below).
   const bgTiers = useMemo(() => {
-    const a = currentSlide;
-    return [a?.banner_image, a?.images?.webp?.large_image_url, a?.images?.jpg?.large_image_url]
-      .filter((u): u is string => Boolean(u));
+    const banner = currentSlide?.banner_image;
+    return banner ? [banner] : [];
   }, [currentSlide]);
 
   const [bgTier, setBgTier] = useState(0);
@@ -107,7 +106,9 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
   if (!featuredList.length) return null;
 
   const currentAnime = currentSlide;
-  const bgImage = bgTiers[Math.min(bgTier, bgTiers.length - 1)] ?? null;
+  // null when no banner or it failed to load -> poster fallback layout
+  const bgImage = bgTiers[bgTier] ?? null;
+  const coverUrl = currentAnime.images?.webp?.image_url || currentAnime.images?.jpg?.image_url;
 
   return (
     <div
@@ -125,7 +126,7 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
           exit="exit"
           className="absolute inset-0 z-0 will-change-transform"
         >
-          {bgImage && (
+          {bgImage ? (
             <img
               src={bgImage}
               alt=""
@@ -133,10 +134,33 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
               fetchPriority="high"
               decoding="async"
               draggable={false}
-              onError={() => setBgTier((t) => Math.min(t + 1, bgTiers.length - 1))}
+              onError={() => setBgTier((t) => t + 1)}
               className="w-full h-full object-cover"
             />
-          )}
+          ) : coverUrl ? (
+            <>
+              {/* Soft blurred backdrop so the hero is never an upscaled blur */}
+              <img
+                src={coverUrl}
+                alt=""
+                aria-hidden
+                loading="eager"
+                decoding="async"
+                draggable={false}
+                className="absolute inset-0 w-full h-full object-cover object-top scale-125 blur-2xl brightness-[0.45] opacity-70"
+              />
+              {/* Sharp portrait poster (shown at native cover size) */}
+              <img
+                src={coverUrl}
+                alt=""
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                draggable={false}
+                className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 hidden lg:block w-[280px] xl:w-[340px] aspect-[2/3] object-cover rounded-card border border-white/10 shadow-2xl"
+              />
+            </>
+          ) : null}
           {/* Cinematic Dark Gradient Overlays */}
           <div className="absolute inset-0 bg-gradient-to-r from-void via-void/85 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/30 to-void/40" />
