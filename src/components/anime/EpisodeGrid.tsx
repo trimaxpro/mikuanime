@@ -8,13 +8,14 @@ import type { Episode } from '@/types/anime';
 
 interface EpisodeGridProps {
   animeId: number;
+  animeTitle?: string;
   episodes: Episode[];
   isLoading: boolean;
   posterImage?: string;
   isAiring?: boolean;
 }
 
-export function EpisodeGrid({ animeId, episodes, isLoading, posterImage, isAiring }: EpisodeGridProps) {
+export function EpisodeGrid({ animeId, animeTitle, episodes, isLoading, posterImage, isAiring }: EpisodeGridProps) {
   const { getProgress } = useWatchHistory();
 
   const visibleEpisodes = useMemo(() => {
@@ -52,7 +53,7 @@ export function EpisodeGrid({ animeId, episodes, isLoading, posterImage, isAirin
               {posterImage && (
                 <img
                   src={posterImage}
-                  alt=""
+                  alt={animeTitle ? `${animeTitle} episode ${ep.episode}` : `Anime episode ${ep.episode} thumbnail`}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />

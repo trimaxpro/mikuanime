@@ -18,7 +18,7 @@ export default function NotFoundPage() {
           <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent-primary/10 rounded-full blur-2xl" />
           <img
             src="/crying-miku.gif"
-            alt=""
+            alt="MikuAnime page not found"
             className="w-40 h-40 object-contain"
           />
         </div>

@@ -189,7 +189,7 @@ export function Navbar() {
                       >
                         <img
                           src={anime.images?.webp?.image_url || anime.images?.jpg?.image_url}
-                          alt=""
+                          alt={anime.title_english || anime.title}
                           className="w-10 h-14 rounded-lg object-cover flex-shrink-0 border border-border-subtle group-hover:border-accent-primary/40 transition-colors"
                         />
                         <div className="flex-1 min-w-0">

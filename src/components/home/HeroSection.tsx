@@ -127,7 +127,7 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
           {bgImage && (
             <img
               src={bgImage}
-              alt=""
+              alt={currentAnime.title ? `${currentAnime.title} banner` : ''}
               loading="eager"
               fetchPriority="high"
               decoding="async"

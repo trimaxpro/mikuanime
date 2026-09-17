@@ -238,7 +238,7 @@ export default function AnimePage() {
                 {isAiring ? `${visibleEpisodes.length}/${episodes.data?.length}` : visibleEpisodes.length}
               </span>
             </h2>
-            <EpisodeGrid animeId={animeId} episodes={visibleEpisodes} isLoading={episodes.isLoading} posterImage={anime.images.jpg?.image_url} isAiring={isAiring} />
+            <EpisodeGrid animeId={animeId} animeTitle={anime.title_english || anime.title} episodes={visibleEpisodes} isLoading={episodes.isLoading} posterImage={anime.images.jpg?.image_url} isAiring={isAiring} />
           </section>
         )}
 
