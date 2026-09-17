@@ -252,7 +252,7 @@ export default function GenrePage() {
           <div className="flex items-center justify-center py-10 gap-2.5">
             <Loader2 className="w-5 h-5 text-accent-glow animate-spin stroke-[1.5]" />
             <span className="text-sm text-text-secondary font-body">
-              Loading more anime...
+              Load more
             </span>
           </div>
         )}
