@@ -4,6 +4,7 @@ import { Play } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
+import { getAiredEpisodes } from '@/utils/episodes';
 import type { Episode } from '@/types/anime';
 
 interface EpisodeListProps {
@@ -14,10 +15,7 @@ interface EpisodeListProps {
 }
 
 export function EpisodeList({ animeId, episodes, currentEpisode, isAiring }: EpisodeListProps) {
-  const visibleEpisodes = useMemo(() => {
-    if (!isAiring) return episodes;
-    return episodes.filter((ep) => ep.aired !== null && ep.aired !== '');
-  }, [episodes, isAiring]);
+  const visibleEpisodes = useMemo(() => getAiredEpisodes(episodes, isAiring), [episodes, isAiring]);
 
   return (
     <ScrollArea className="h-[400px]">

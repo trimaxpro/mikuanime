@@ -9,65 +9,12 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { SEO, buildDescription } from '@/components/common/SEO';
 import { KeyFacts, type KeyFact } from '@/components/common/KeyFacts';
 import { useAnimeDetail, useAnimeEpisodes } from '@/hooks/useAnime';
+import { getAiredEpisodes } from '@/utils/episodes';
 import { apiClient } from '@/api/client';
 import { AlertCircle, List, Users, ListVideo, ExternalLink } from 'lucide-react';
 import type { Anime } from '@/types/anime';
 
 const ANIME_URL = (id: number) => `https://www.mikuanime.site/anime/${id}`;
-
-function buildAnimeFaq(anime: Anime) {
-  const name = anime.title_english || anime.title;
-  const genreText = anime.genres.map((g) => g.name).join(', ') || 'a range of genres';
-  const questions: { q: string; a: string }[] = [];
-
-  if (anime.synopsis) {
-    const firstSentence = buildDescription(anime.synopsis, 240);
-    questions.push({
-      q: `What is ${name} about?`,
-      a: firstSentence,
-    });
-  }
-
-  questions.push({
-    q: `Where can I watch ${name} online?`,
-    a: `You can watch ${name} online free in HD on MikuAnime, with subbed and dubbed audio plus a full episode list and weekly airing updates.`,
-  });
-
-  if (anime.episodes) {
-    questions.push({
-      q: `How many episodes does ${name} have?`,
-      a: `${name} has ${anime.episodes} ${anime.episodes === 1 ? 'episode' : 'episodes'}${anime.duration ? ` with a runtime of about ${anime.duration} each` : ''}.`,
-    });
-  } else if (anime.status && /Airing/i.test(anime.status)) {
-    questions.push({
-      q: `How many episodes does ${name} have?`,
-      a: `${name} is currently airing, so new episodes are added to the schedule on MikuAnime as they release.`,
-    });
-  }
-
-  if (anime.genres.length > 0) {
-    questions.push({
-      q: `What genre is ${name}?`,
-      a: `${name} is an anime series that mixes ${genreText}.`,
-    });
-  }
-
-  if (anime.status) {
-    const isAiring = /Airing/i.test(anime.status);
-    questions.push({
-      q: `Is ${name} still airing?`,
-      a: isAiring
-        ? `Yes, ${name} is currently airing — follow the MikuAnime schedule to catch new episodes the day they drop.`
-        : `No, ${name} has finished airing${anime.aired?.to ? ` (${anime.aired.to})` : ''}. All released episodes are available to watch on MikuAnime.`,
-    });
-  }
-
-  return questions.map((item) => ({
-    '@type': 'Question',
-    'name': item.q,
-    'acceptedAnswer': { '@type': 'Answer', 'text': item.a },
-  }));
-}
 
 function buildAnimeKeyFacts(anime: Anime): KeyFact[] {
   const isAiring = anime.status === 'Currently Airing' || anime.status === 'Airing';
@@ -132,13 +79,7 @@ function buildAnimeSchema(anime: Anime): Record<string, unknown>[] {
     ],
   };
 
-  const faq: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    'mainEntity': buildAnimeFaq(anime),
-  };
-
-  return [series, breadcrumb, faq];
+  return [series, breadcrumb];
 }
 
 export default function AnimePage() {
@@ -203,9 +144,7 @@ export default function AnimePage() {
   }
 
   const isAiring = anime.status === 'Currently Airing' || anime.status === 'Airing';
-  const visibleEpisodes = isAiring
-    ? episodes.data?.filter((ep) => ep.aired !== null && ep.aired !== '')
-    : episodes.data;
+  const visibleEpisodes = getAiredEpisodes(episodes.data, isAiring);
 
   const title = anime.title_english || anime.title;
   const description = anime.synopsis
@@ -238,7 +177,7 @@ export default function AnimePage() {
                 {isAiring ? `${visibleEpisodes.length}/${episodes.data?.length}` : visibleEpisodes.length}
               </span>
             </h2>
-            <EpisodeGrid animeId={animeId} animeTitle={anime.title_english || anime.title} episodes={visibleEpisodes} isLoading={episodes.isLoading} posterImage={anime.images.jpg?.image_url} isAiring={isAiring} />
+            <EpisodeGrid animeId={animeId} animeTitle={anime.title_english || anime.title} episodes={visibleEpisodes} isLoading={episodes.isLoading} posterImage={anime.images.jpg?.image_url} />
           </section>
         )}
 
@@ -266,19 +205,7 @@ export default function AnimePage() {
         )}
 
         <section className="scroll-mt-20">
-          <h2 className="font-display font-semibold text-xl text-text-primary mb-5">
-            Frequently Asked Questions
-          </h2>
-          <div className="divide-y divide-border-subtle/70 max-w-3xl">
-            {buildAnimeFaq(anime).map((item) => (
-              <div key={item.name} className="py-4">
-                <h3 className="font-body font-semibold text-text-primary text-base mb-1.5">{item.name}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{item.acceptedAnswer.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-border-subtle/70">
+          <div>
             <p className="text-xs text-text-muted uppercase tracking-wider font-semibold mb-3">Info & Sources</p>
             <div className="flex flex-wrap gap-2.5">
               <a

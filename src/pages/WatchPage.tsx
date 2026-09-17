@@ -12,6 +12,7 @@ import { EpisodeSkeleton } from '@/components/ui/Skeleton';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { useAnimeDetail, useAnimeEpisodes, useSkipTimes } from '@/hooks/useAnime';
 import { useWatchHistory } from '@/hooks/useWatchHistory';
+import { getAiredEpisodes } from '@/utils/episodes';
 import { apiClient } from '@/api/client';
 import { SEO } from '@/components/common/SEO';
 import { AlertCircle, Server, Monitor, Globe, Sparkles, Play, ListVideo, ChevronDown, Radio } from 'lucide-react';
@@ -96,11 +97,7 @@ export default function WatchPage() {
   }, [animeMalId, animeTitle, animeImage, episodeNum, addToHistory]);
 
   const isAiring = anime?.status === 'Currently Airing' || anime?.status === 'Airing';
-  const visibleEpisodes = useMemo(() => {
-    if (!episodes.data) return [];
-    if (!isAiring) return episodes.data;
-    return episodes.data.filter((ep) => ep.aired !== null && ep.aired !== '');
-  }, [episodes.data, isAiring]);
+  const visibleEpisodes = useMemo(() => getAiredEpisodes(episodes.data, isAiring), [episodes.data, isAiring]);
   const maxAvailableEpisode = visibleEpisodes.reduce((max, ep) => Math.max(max, ep.episode), 0);
 
   const refetchEpisodes = episodes.refetch;
@@ -299,9 +296,7 @@ export default function WatchPage() {
                   </h2>
                   {episodes.data && (
                     <span className="text-xs text-text-muted font-mono">
-                      {isAiring
-                        ? `${episodes.data.filter((e) => e.aired !== null && e.aired !== '').length}/${episodes.data.length}`
-                        : episodes.data.length}
+                      {isAiring ? `${visibleEpisodes.length}/${episodes.data.length}` : episodes.data.length}
                     </span>
                   )}
                 </div>
