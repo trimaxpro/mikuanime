@@ -15,7 +15,7 @@ export interface SEOProps {
 export const DEFAULT_TITLE = 'MikuAnime — Watch Anime Online in HD for Free';
 export const DEFAULT_DESCRIPTION =
   'Stream popular anime free in HD on MikuAnime — subbed and dubbed. Follow weekly airing schedules, browse anime by genre, and sync your watchlist on any device.';
-export const DEFAULT_IMAGE = 'https://www.mikuanime.site/logo.gif';
+export const DEFAULT_IMAGE = 'https://www.mikuanime.site/og-image.png';
 export const SITE_NAME = 'MikuAnime';
 export const BASE_URL = 'https://www.mikuanime.site';
 

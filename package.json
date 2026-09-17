@@ -8,6 +8,7 @@
     "dev:api": "tsx scripts/dev-api.ts",
     "dev:vercel": "vercel dev",
     "build": "vite build",
+    "gen:sitemap": "node scripts/generate-sitemap.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"

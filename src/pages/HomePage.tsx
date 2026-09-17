@@ -39,11 +39,22 @@ function buildHomeSchema(trending: Anime[]): Record<string, unknown>[] {
       '@id': 'https://www.mikuanime.site/#website',
       'name': 'MikuAnime',
       'url': 'https://www.mikuanime.site/',
+      'publisher': { '@id': 'https://www.mikuanime.site/#organization' },
       'potentialAction': {
         '@type': 'SearchAction',
         'target': { '@type': 'EntryPoint', 'urlTemplate': 'https://www.mikuanime.site/search?q={search_term_string}' },
         'query-input': 'required name=search_term_string',
       },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': 'https://www.mikuanime.site/#organization',
+      'name': 'MikuAnime',
+      'url': 'https://www.mikuanime.site/',
+      'logo': 'https://www.mikuanime.site/og-image.png',
+      'description': 'MikuAnime is a free anime streaming and discovery platform for watching subbed and dubbed anime online in HD.',
+      'sameAs': ['https://twitter.com/MikuAnime'],
     },
     {
       '@context': 'https://schema.org',

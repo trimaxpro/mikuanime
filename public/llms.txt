@@ -33,10 +33,10 @@
 
 ## Platform Features
 
-- **Multi-Source Streaming**: Adaptive HLS video playback with sub/dub switching and episode selection.
-- **Fast Search**: Instant debounced search with MAL ID, Japanese title, and English title support.
-- **Watchlist & History**: Real-time cloud sync powered by Firebase Authentication and local persistence.
-- **Watch2Gether**: Collaborative room creation for synchronized anime watching with friends.
+- **Multi-Source Streaming**: HD video playback with sub/dub switching and server selection across multiple embed sources.
+- **Fast Search**: Instant debounced search with MAL ID, English title, and Japanese romaji support.
+- **Watchlist & History**: Local watchlist and watch history on any device, with optional cloud sync via Firebase Authentication.
+- **Airing Schedule & Countdowns**: Live daily anime broadcast timetables with next-episode release countdowns.
 
 ## Legal & Compliance
 
