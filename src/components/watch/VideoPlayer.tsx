@@ -96,6 +96,13 @@ export function VideoPlayer({ src, embedUrl, onEnded, skipTimes }: VideoPlayerPr
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        e.metaKey || e.ctrlKey || e.altKey ||
+        (target && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)))
+      ) {
+        return;
+      }
       if (e.key === ' ' || e.key === 'k') { e.preventDefault(); togglePlay(); }
       if (e.key === 'f') { e.preventDefault(); toggleFullscreen(); }
       if (e.key === 'm') { e.preventDefault(); toggleMute(); }
