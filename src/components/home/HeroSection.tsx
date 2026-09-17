@@ -175,9 +175,9 @@ function HeroSectionInner({ anime, isLoading }: HeroSectionProps) {
               </div>
 
               {/* Title */}
-              <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] text-text-primary leading-[1.15] mb-2 line-clamp-2 drop-shadow-md">
+              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] text-text-primary leading-[1.15] mb-2 line-clamp-2 drop-shadow-md">
                 {currentAnime.title_english || currentAnime.title}
-              </h1>
+              </h2>
 
               {currentAnime.title_japanese && (
                 <p className="text-text-muted text-sm sm:text-base mb-2 font-body line-clamp-1">

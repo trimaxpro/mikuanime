@@ -4,9 +4,12 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AnimeGrid } from '@/components/browse/AnimeGrid';
 import { DotPattern } from '@/components/ui/DotPattern';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { SEO, buildDescription } from '@/components/common/SEO';
 import { GENRES } from '@/utils/constants';
 import { getGenreIcon } from '@/utils/genreIcons';
+import { getGenreContent } from '@/utils/genreContent';
 import { useBrowse } from '@/hooks/useAnime';
+import { HelpCircle } from 'lucide-react';
 import { Sparkles, AlertCircle, ArrowUpDown, ChevronDown, Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,6 +21,39 @@ const SORT_OPTIONS = [
   { value: 'start_date', label: 'Release Date' },
   { value: 'title', label: 'Title' },
 ] as const;
+
+function buildGenreSchema(genreName: string, slug: string) {
+  const url = `https://www.mikuanime.site/genre/${slug}`;
+  const content = getGenreContent(slug);
+  const faq = content.faq.map((f) => ({
+    '@type': 'Question',
+    'name': f.q,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.a },
+  }));
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      'name': `${genreName} Anime`,
+      'url': url,
+      'description': content.intro.join(' '),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.mikuanime.site/' },
+        { '@type': 'ListItem', 'position': 2, 'name': `${genreName} Anime`, 'item': url },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': faq,
+    },
+  ];
+}
 
 export default function GenrePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -56,6 +92,11 @@ export default function GenrePage() {
 
   const allAnime = useMemo(() => data?.pages.flatMap((page) => page.data) || [], [data]);
 
+  const content = getGenreContent(genre?.slug || '');
+  const genreDescription = buildDescription(
+    `Watch ${genre?.name || ''} anime online free in HD on MikuAnime. ${content.intro.join(' ')} Browse top-rated and trending ${(genre?.name || '').toLowerCase()} series, from underrated gems to seasonal hits.`,
+  );
+
   // Infinite scroll observer just like BrowsePage
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -77,6 +118,7 @@ export default function GenrePage() {
   if (!genre) {
     return (
       <PageWrapper className="pt-24 pb-12 px-4">
+        <SEO title="Genre Not Found" description="Browse all available anime genres on MikuAnime." noindex />
         <EmptyState
           icon={AlertCircle}
           title="Genre not found"
@@ -91,6 +133,7 @@ export default function GenrePage() {
   if (isLoading && allAnime.length === 0) {
     return (
       <PageWrapper>
+        <SEO title={`${genre.name} Anime`} description={genreDescription} noindex />
         <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
           <img src="/loader.gif" alt="Loading..." className="w-24 h-24 object-contain" />
           <p className="font-display text-base text-text-muted animate-pulse">Loading...</p>
@@ -101,6 +144,14 @@ export default function GenrePage() {
 
   return (
     <PageWrapper className="pt-24 pb-12">
+      <SEO
+        title={`Watch ${genre.name} Anime Online — Top ${genre.name} Series`}
+        description={genreDescription}
+        canonical={`/genre/${genre.slug}`}
+        keywords={[`${genre.name} anime`, 'anime streaming', 'HD anime']}
+        schema={buildGenreSchema(genre.name, genre.slug)}
+      />
+
       {/* Header matching SchedulePage style */}
       <div className="relative mb-8 px-4">
         <DotPattern opacity={0.3} />
@@ -116,6 +167,11 @@ export default function GenrePage() {
             <Sparkles className="w-4 h-4 text-accent-glow stroke-[1.5]" />
             Explore top and trending {genre.name.toLowerCase()} titles
           </p>
+          <div className="mt-4 ml-5 max-w-3xl space-y-3 text-sm sm:text-base text-text-secondary leading-relaxed">
+            {content.intro.map((para) => (
+              <p key={para.slice(0, 32)}>{para}</p>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -123,9 +179,9 @@ export default function GenrePage() {
         {/* Controls Bar: Sort Selector */}
         <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-border-subtle">
           <div className="flex items-center gap-2">
-            <span className="font-display font-semibold text-lg text-text-primary">
-              All Titles
-            </span>
+            <h2 className="font-display font-semibold text-lg text-text-primary">
+              All {genre.name} Anime
+            </h2>
             <span className="text-xs px-2 py-0.5 rounded-full bg-accent-primary/10 text-accent-glow border border-accent-primary/20 font-mono">
               {allAnime.length} loaded
             </span>
@@ -218,6 +274,21 @@ export default function GenrePage() {
             </p>
           </div>
         )}
+      </div>
+
+      {/* FAQ for AI search readiness + structured answers */}
+      <div className="max-w-3xl mx-auto px-4 mt-14">
+        <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-4 flex items-center gap-2">
+          <HelpCircle className="w-5 h-5 text-accent-glow stroke-[1.5]" /> {genre.name} Anime FAQ
+        </h2>
+        <div className="divide-y divide-border-subtle/70">
+          {content.faq.map((item) => (
+            <div key={item.q} className="py-4">
+              <h3 className="font-body font-semibold text-text-primary mb-1.5 text-base">{item.q}</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">{item.a}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </PageWrapper>
   );

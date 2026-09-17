@@ -1,0 +1,44 @@
+# MikuAnime
+
+> MikuAnime is a fast, responsive, and ad-free modern anime streaming and discovery platform. Users can stream subbed and dubbed anime series in HD, track seasonal broadcasting schedules, explore curated genres, and synchronize personal watchlists and history across devices.
+
+## Core Navigation
+
+- [Home](https://www.mikuanime.site/): Explore featured hero releases, trending series, seasonal broadcasts, and quick genre navigation.
+- [Browse](https://www.mikuanime.site/browse): Filter anime by format (TV, Movie, OVA, ONA, Special), airing status, season, release year, score, and genre tags.
+- [Schedule](https://www.mikuanime.site/schedule): Live daily anime broadcast timetable tracking simulcast air dates and countdowns.
+- [Sign In](https://www.mikuanime.site/signin): User account authentication with email/password and Google OAuth.
+- [Register](https://www.mikuanime.site/register): Free account registration for watchlist synchronization.
+
+## Browse by Genre
+
+- [Action](https://www.mikuanime.site/genre/action): High-octane battles, martial arts, and heroic adventures.
+- [Adventure](https://www.mikuanime.site/genre/adventure): Expansive journeys, world exploration, and quests.
+- [Comedy](https://www.mikuanime.site/genre/comedy): Parody, humor, and lighthearted character comedy.
+- [Drama](https://www.mikuanime.site/genre/drama): Emotional character arcs, tension, and realistic interpersonal stories.
+- [Ecchi](https://www.mikuanime.site/genre/ecchi): Romantic comedies and playful fanservice.
+- [Fantasy](https://www.mikuanime.site/genre/fantasy): Magic, isekai realms, mythical beasts, and alternate universes.
+- [Horror](https://www.mikuanime.site/genre/horror): Psychological frights, curses, and survival mysteries.
+- [Mahou Shoujo](https://www.mikuanime.site/genre/mahou-shoujo): Magical girls, transformations, and cosmic powers.
+- [Mecha](https://www.mikuanime.site/genre/mecha): Giant robot combat, sci-fi military, and futuristic technology.
+- [Music](https://www.mikuanime.site/genre/music): Bands, idol performances, and musical competitions.
+- [Mystery](https://www.mikuanime.site/genre/mystery): Detective cases, puzzle solving, and uncovering hidden truths.
+- [Psychological](https://www.mikuanime.site/genre/psychological): Mind games, moral dilemmas, and intense thriller plots.
+- [Romance](https://www.mikuanime.site/genre/romance): Heartwarming love stories, school romance, and romantic dramas.
+- [Sci-Fi](https://www.mikuanime.site/genre/sci-fi): Cyberpunk, space exploration, artificial intelligence, and time travel.
+- [Slice of Life](https://www.mikuanime.site/genre/slice-of-life): Everyday tranquility, school life, and relaxing narratives.
+- [Sports](https://www.mikuanime.site/genre/sports): Athletic competitions, teamwork, and tournament battles.
+- [Supernatural](https://www.mikuanime.site/genre/supernatural): Spirits, yokai, exorcists, and occult phenomena.
+- [Thriller](https://www.mikuanime.site/genre/thriller): High-stakes suspense, conspiracies, and gripping pacing.
+
+## Platform Features
+
+- **Multi-Source Streaming**: Adaptive HLS video playback with sub/dub switching and episode selection.
+- **Fast Search**: Instant debounced search with MAL ID, Japanese title, and English title support.
+- **Watchlist & History**: Real-time cloud sync powered by Firebase Authentication and local persistence.
+- **Watch2Gether**: Collaborative room creation for synchronized anime watching with friends.
+
+## Legal & Compliance
+
+- [Terms of Service](https://www.mikuanime.site/terms): Terms governing access, acceptable use, and third-party media linking disclaimers.
+- [Privacy Policy](https://www.mikuanime.site/privacy): Information on user data handling, cookie usage, analytics, and security practices.

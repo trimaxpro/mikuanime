@@ -1,4 +1,5 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { SEO } from '@/components/common/SEO';
 import { Shield, Lock, Eye, Cookie, Server, CheckCircle2, Sparkles, UserCheck } from 'lucide-react';
 
 const sections = [
@@ -43,6 +44,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <PageWrapper className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Privacy Policy"
+        description="Learn how MikuAnime handles your data — local storage, secure account sync, cookies, third-party streaming providers and your rights. Privacy-first by design."
+        canonical="/privacy"
+        keywords={['privacy policy', 'MikuAnime privacy', 'data protection']}
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header Hero Banner */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-surface/90 via-surface/60 to-surface/30 border border-border-subtle/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">

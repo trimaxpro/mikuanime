@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { SEO } from '@/components/common/SEO';
 import { Home } from 'lucide-react';
 
 export default function NotFoundPage() {
   return (
     <PageWrapper className="min-h-screen flex items-center justify-center py-20 px-4">
+      <SEO
+        title="Page Not Found (404)"
+        description="The page you were looking for doesn't exist. Head back to MikuAnime to stream anime online in HD."
+        noindex
+      />
       <div className="relative w-full max-w-md mx-auto flex flex-col items-center text-center">
         <div className="absolute inset-0 dot-pattern opacity-30" />
 

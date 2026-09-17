@@ -4,6 +4,7 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
+import { SEO } from '@/components/common/SEO';
 import { BookmarkPlus, CalendarDays, Clock, Tv, Radio } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/utils/cn';
@@ -31,6 +32,7 @@ export default function SchedulePage() {
   if (isLoading) {
     return (
       <PageWrapper>
+        <SEO title="Anime Airing Schedule — Weekly Broadcast Times" description="Check today's anime airing schedule, broadcast times and release countdowns on MikuAnime." noindex />
         <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
           <img src="/loader.gif" alt="Loading..." className="w-24 h-24 object-contain" />
           <p className="font-display text-base text-text-muted animate-pulse">Loading...</p>
@@ -41,6 +43,11 @@ export default function SchedulePage() {
 
   return (
     <PageWrapper className="pt-24 pb-12">
+      <SEO
+        title="Anime Airing Schedule — Daily Broadcast Times"
+        description="See what anime airs today on MikuAnime — daily broadcast times, next-episode countdowns, and simulcast release updates for currently airing shows."
+        keywords={['anime schedule', 'airing anime', 'today anime episodes', 'broadcast times']}
+      />
       <div className="relative mb-8 px-4">
         <div className="relative z-10 max-w-7xl mx-auto">
           <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary ml-5 flex items-center gap-3"><CalendarDays className="w-8 h-8 text-accent-glow stroke-[1.5]" /> Airing Schedule</h1>

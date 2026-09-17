@@ -3,6 +3,7 @@ import { Compass, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AnimeGrid } from '@/components/browse/AnimeGrid';
 import { FilterBar, type FilterState } from '@/components/browse/FilterBar';
+import { SEO } from '@/components/common/SEO';
 import { useBrowse } from '@/hooks/useAnime';
 
 export default function BrowsePage() {
@@ -49,6 +50,7 @@ export default function BrowsePage() {
   if (isLoading && !allAnime.length) {
     return (
       <PageWrapper>
+        <SEO title="Browse All Anime by Genre, Status & Season" description="Browse the full MikuAnime catalog and filter anime by genre, format, airing status, season, year and score." noindex />
         <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
           <img src="/loader.gif" alt="Loading..." className="w-24 h-24 object-contain" />
           <p className="font-display text-base text-text-muted animate-pulse">Loading...</p>
@@ -59,6 +61,11 @@ export default function BrowsePage() {
 
   return (
     <PageWrapper className="pt-20 pb-12">
+      <SEO
+        title="Browse All Anime — Filter by Genre, Status & Season"
+        description="Find your next favorite anime on MikuAnime. Filter the full library by genre, format, airing status, release season, year and score, then jump straight into HD streaming."
+        keywords={['browse anime', 'anime filter', 'anime catalog', 'anime by genre']}
+      />
       <div className="max-w-7xl mx-auto px-4 pt-8 pb-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-card bg-accent-primary/10 flex items-center justify-center border border-accent-primary/20">

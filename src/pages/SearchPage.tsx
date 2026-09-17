@@ -4,6 +4,7 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { SearchBar } from '@/components/search/SearchBar';
 import { AnimeGrid } from '@/components/browse/AnimeGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { SEO } from '@/components/common/SEO';
 import { SearchX, Search, Sparkles, Filter, Loader2, Compass } from 'lucide-react';
 import { useInfiniteSearch } from '@/hooks/useSearch';
 import { cn } from '@/utils/cn';
@@ -114,6 +115,14 @@ export default function SearchPage() {
 
   return (
     <PageWrapper className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title={query ? `Search "${query}"` : 'Search Anime by Title, Romaji or ID'}
+        description={query
+          ? `Search results for "${query}" across the MikuAnime catalog. Stream subbed and dubbed anime online in HD, filter by format, status and score.`
+          : 'Search the MikuAnime catalog by English title, Japanese romaji, keyword or MyAnimeList ID, then stream any match instantly in HD.'}
+        canonical={query ? `/search?q=${encodeURIComponent(query)}` : '/search'}
+        noindex={!query}
+      />
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Search Header Banner */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-surface/90 via-surface/60 to-surface/30 border border-border-subtle/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">

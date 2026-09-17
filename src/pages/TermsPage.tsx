@@ -1,4 +1,5 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { SEO } from '@/components/common/SEO';
 import { FileText, Scale, Shield, AlertCircle, Sparkles, CheckCircle2, HelpCircle } from 'lucide-react';
 
 const sections = [
@@ -43,6 +44,12 @@ const sections = [
 export default function TermsPage() {
   return (
     <PageWrapper className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Terms of Service"
+        description="Read the MikuAnime Terms of Service — how the platform works as a third-party streaming index, acceptable use, intellectual property, and DMCA policy."
+        canonical="/terms"
+        keywords={['terms of service', 'MikuAnime terms']}
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header Hero Banner */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-surface/90 via-surface/60 to-surface/30 border border-border-subtle/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">

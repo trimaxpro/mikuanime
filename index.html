@@ -2,15 +2,77 @@
 <html lang="en" class="dark" style="background-color: #050508; color-scheme: dark;">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MikuAnime — Watch Anime Online in HD | Premium Anime Streaming</title>
+    <meta
+      name="description"
+      content="Stream and discover thousands of subbed and dubbed anime series in HD on MikuAnime. Explore seasonal releases, trending shows, and curated genres for free."
+    />
+    <meta name="keywords" content="anime, streaming, watch anime, subbed, dubbed, anime free, HD anime, MikuAnime" />
+    <meta name="author" content="MikuAnime" />
     <meta name="theme-color" content="#050508" />
     <meta name="color-scheme" content="dark" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.mikuanime.site/" />
+
+    <!-- Language Declaration (English-only site, no alternate-language versions) -->
+    <link rel="alternate" hreflang="en" href="https://www.mikuanime.site/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mikuanime.site/" />
+
+    <!-- Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MikuAnime — Premium Anime Streaming</title>
-    <meta name="description" content="Discover, stream, and track your favorite anime on MikuAnime." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="MikuAnime" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mikuanime.site/" />
+    <meta property="og:title" content="MikuAnime — Watch Anime Online in HD | Premium Anime Streaming" />
+    <meta
+      property="og:description"
+      content="Stream and discover thousands of subbed and dubbed anime series in HD on MikuAnime. Explore seasonal releases, trending shows, and curated genres for free."
+    />
+    <meta property="og:image" content="https://www.mikuanime.site/logo.gif" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MikuAnime" />
+    <meta name="twitter:url" content="https://www.mikuanime.site/" />
+    <meta name="twitter:title" content="MikuAnime — Watch Anime Online in HD | Premium Anime Streaming" />
+    <meta
+      name="twitter:description"
+      content="Stream and discover thousands of subbed and dubbed anime series in HD on MikuAnime. Explore seasonal releases, trending shows, and curated genres for free."
+    />
+    <meta name="twitter:image" content="https://www.mikuanime.site/logo.gif" />
+
+    <!-- Critical Resource Hints for High Performance & Core Web Vitals -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://s4.anilist.co" />
+    <link rel="preconnect" href="https://s4.anilist.co" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.myanimelist.net" />
+    <link rel="preconnect" href="https://cdn.myanimelist.net" crossorigin />
+
+    <!-- Structured Data: WebSite & SearchAction Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MikuAnime",
+        "url": "https://www.mikuanime.site/",
+        "description": "Stream and discover thousands of subbed and dubbed anime series in HD on MikuAnime.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.mikuanime.site/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
     <style>
       html, body {
         background-color: #050508 !important;
@@ -23,10 +85,8 @@
         min-height: 100vh;
       }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&family=Ubuntu+Mono:wght@400;500;700&display=swap" as="style" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&family=Ubuntu+Mono:wght@400;500;700&display=swap" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" as="style" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
   </head>
   <body style="background-color: #050508; color: #f1f5f9; margin: 0;" class="bg-void text-text-primary font-body antialiased">
     <div id="root"></div>

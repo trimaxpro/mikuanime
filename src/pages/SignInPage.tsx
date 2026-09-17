@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { SEO } from '@/components/common/SEO';
 import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle } from 'lucide-react';
 import { DotPattern } from '@/components/ui/DotPattern';
 import { GoogleIcon } from '@/components/ui/GoogleIcon';
@@ -43,13 +44,18 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-void">
+      <SEO
+        title="Sign In to MikuAnime — Sync Your Watchlist"
+        description="Sign in to MikuAnime to track your watchlist and watch history, and keep them in sync across all your devices. Free account, instant access."
+        noindex
+      />
       <DotPattern opacity={0.25} />
 
       {/* Atmospheric theme ambient glow */}
       <div className="absolute top-1/4 -left-32 w-80 h-80 bg-accent-primary/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent-violet/15 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-[380px] relative z-10 animate-fade-in">
+      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
         {/* Brand Logo & Title */}
         <div className="flex items-center justify-center gap-3.5 mb-6">
           <Link to="/" className="group flex-shrink-0" aria-label="Home">
@@ -58,9 +64,14 @@ export default function SignInPage() {
             </div>
           </Link>
           <h1 className="font-display font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">
-            Login
+            Welcome Back
           </h1>
         </div>
+
+        <p className="text-center text-sm text-text-secondary leading-relaxed max-w-sm mx-auto mb-6">
+          Sign in to keep your <strong className="text-text-primary font-semibold">watchlist</strong> and watch
+          history synced across devices, so you never lose your place in a series.
+        </p>
 
         {/* Main Card */}
         <div className="relative glass-card rounded-2xl p-6 sm:p-7 border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.7)] bg-surface/75 backdrop-blur-xl overflow-hidden">
@@ -81,7 +92,7 @@ export default function SignInPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-3.5 py-3 text-base text-text-primary placeholder:text-text-muted/60 font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
+                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-3.5 py-3 text-base text-text-primary placeholder:text-text-muted font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
                 />
               </div>
             </div>
@@ -99,7 +110,7 @@ export default function SignInPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-11 py-3 text-base text-text-primary placeholder:text-text-muted/60 font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
+                  className="w-full bg-void/70 border border-white/[0.08] rounded-xl pl-11 pr-11 py-3 text-base text-text-primary placeholder:text-text-muted font-body transition-all duration-200 hover:border-white/[0.16] focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/30 focus:bg-void/90 focus:outline-none"
                 />
                 <button
                   type="button"
