@@ -6,6 +6,7 @@ import { AnimeCard } from '@/components/ui/AnimeCard';
 import { useUserStore } from '@/stores/userStore';
 import { useWatchlist } from '@/hooks/useWatchlist';
 import { useAuth } from '@/hooks/useAuth';
+import { SEO } from '@/components/common/SEO';
 import { BookmarkPlus, Edit3, Star, List, Play, CheckCircle, Eye, Clock } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import type { WatchlistStatus } from '@/types/user';
@@ -38,6 +39,7 @@ export default function ProfilePage() {
 
   return (
     <PageWrapper className="pt-24 pb-12 px-4">
+      <SEO noindex title="My Watchlist — MikuAnime" description="Your saved anime watchlist, statuses and watch history on MikuAnime." />
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           {(() => {

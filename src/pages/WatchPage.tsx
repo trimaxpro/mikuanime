@@ -13,6 +13,7 @@ import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { useAnimeDetail, useAnimeEpisodes, useSkipTimes } from '@/hooks/useAnime';
 import { useWatchHistory } from '@/hooks/useWatchHistory';
 import { apiClient } from '@/api/client';
+import { SEO } from '@/components/common/SEO';
 import { AlertCircle, Server, Monitor, Globe, Sparkles, Play, ListVideo, ChevronDown, Radio } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import type { Anime } from '@/types/anime';
@@ -112,6 +113,7 @@ export default function WatchPage() {
   if (detail.isError) {
     return (
       <PageWrapper className="pt-20 pb-12 px-4">
+        <SEO title="Failed to Load Episode" description="Something went wrong loading this anime episode player." noindex />
         <EmptyState
           icon={AlertCircle}
           title="Failed to load"
@@ -126,6 +128,7 @@ export default function WatchPage() {
   if (detail.isLoading) {
     return (
       <PageWrapper className="pt-20 pb-12 px-4">
+        <SEO title="Loading Episode" description="Loading the anime episode player." noindex />
         <div className="flex flex-col items-center justify-center min-h-[60vh]">
           <img src="/loader.gif" alt="Loading..." className="w-24 h-24 object-contain" />
           <p className="text-text-muted text-sm mt-4">Loading anime...</p>
@@ -136,6 +139,15 @@ export default function WatchPage() {
 
   return (
     <PageWrapper className="pt-20 pb-12">
+      <SEO
+        noindex
+        title={animeTitle ? `Watch ${animeTitle} Episode ${episodeNum}` : 'Watch Anime Online'}
+        description={
+          anime?.synopsis
+            ? `Watch ${animeTitle} Episode ${episodeNum} free in HD on MikuAnime — subbed and dubbed. ${anime.synopsis.slice(0, 120)}`
+            : `Stream ${animeTitle} Episode ${episodeNum} free in HD on MikuAnime, subbed and dubbed.`
+        }
+      />
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main content: player + info + description + recommendations */}

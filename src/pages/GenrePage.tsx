@@ -5,9 +5,10 @@ import { AnimeGrid } from '@/components/browse/AnimeGrid';
 import { DotPattern } from '@/components/ui/DotPattern';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { SEO, buildDescription } from '@/components/common/SEO';
+import { KeyFacts, type KeyFact } from '@/components/common/KeyFacts';
 import { GENRES } from '@/utils/constants';
 import { getGenreIcon } from '@/utils/genreIcons';
-import { getGenreContent } from '@/utils/genreContent';
+import { getGenreContent, type GenreContent } from '@/utils/genreContent';
 import { useBrowse } from '@/hooks/useAnime';
 import { HelpCircle } from 'lucide-react';
 import { Sparkles, AlertCircle, ArrowUpDown, ChevronDown, Loader2 } from 'lucide-react';
@@ -52,6 +53,15 @@ function buildGenreSchema(genreName: string, slug: string) {
       '@type': 'FAQPage',
       'mainEntity': faq,
     },
+  ];
+}
+
+function buildGenreKeyFacts(genreName: string, content: GenreContent): KeyFact[] {
+  return [
+    { label: 'Genre', value: genreName },
+    { label: 'Definition', value: content.intro[0] ?? '' },
+    { label: 'Key takeaway', value: content.intro[1] ?? '' },
+    { label: 'Community answer', value: content.faq[0]?.a ?? '' },
   ];
 }
 
@@ -176,6 +186,9 @@ export default function GenrePage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4">
+        {/* Summary / key takeaways for GEO */}
+        <KeyFacts title={`${genre.name} Anime — Key Facts`} facts={buildGenreKeyFacts(genre.name, content)} className="mb-6 max-w-3xl" />
+
         {/* Controls Bar: Sort Selector */}
         <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-border-subtle">
           <div className="flex items-center gap-2">

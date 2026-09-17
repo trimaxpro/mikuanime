@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { loadAuth, loadDb } from '@/lib/firebase';
+import type { Firestore } from 'firebase/firestore';
+import type { FirestoreModule } from '@/lib/firebase';
 import type { WatchlistEntry, WatchHistoryEntry, UserPreferences, WatchlistStatus } from '@/types/user';
 
 interface UserState {
@@ -21,6 +22,18 @@ interface UserState {
   getWatchlistByStatus: (status: WatchlistStatus) => WatchlistEntry[];
 }
 
+/** Runs a Firestore write against the signed-in user's watchlist, loading firebase lazily. */
+async function syncWatchlist(fn: (db: Firestore, userId: string, fs: FirestoreModule) => Promise<unknown>) {
+  try {
+    const [{ auth }, dbState] = await Promise.all([loadAuth(), loadDb()]);
+    const user = auth.currentUser;
+    if (!user || !dbState.db || !dbState.module) return;
+    await fn(dbState.db, user.uid, dbState.module);
+  } catch (err) {
+    console.error('Failed to sync watchlist with Firestore:', err);
+  }
+}
+
 export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
@@ -30,7 +43,7 @@ export const useUserStore = create<UserState>()(
 
       setDisplayName: (name) => set((s) => ({ preferences: { ...s.preferences, displayName: name } })),
       setAvatarColor: (color) => set((s) => ({ preferences: { ...s.preferences, avatarColor: color } })),
-      
+
       setWatchlist: (list) => set({ watchlist: list }),
 
       addToWatchlist: (entry) => {
@@ -38,40 +51,30 @@ export const useUserStore = create<UserState>()(
         set((s) => ({
           watchlist: [...s.watchlist.filter((w) => w.malId !== entry.malId), newEntry],
         }));
-        
-        const user = auth.currentUser;
-        if (user && db) {
-          setDoc(doc(db, 'users', user.uid, 'watchlist', String(entry.malId)), newEntry).catch((err) => {
-            console.error('Failed to add to Firestore watchlist:', err);
-          });
-        }
+
+        void syncWatchlist((db, userId, fs) =>
+          fs.setDoc(fs.doc(db, 'users', userId, 'watchlist', String(entry.malId)), newEntry),
+        );
       },
 
       removeFromWatchlist: (malId) => {
         set((s) => ({ watchlist: s.watchlist.filter((w) => w.malId !== malId) }));
-        
-        const user = auth.currentUser;
-        if (user && db) {
-          deleteDoc(doc(db, 'users', user.uid, 'watchlist', String(malId))).catch((err) => {
-            console.error('Failed to delete from Firestore watchlist:', err);
-          });
-        }
+
+        void syncWatchlist((db, userId, fs) =>
+          fs.deleteDoc(fs.doc(db, 'users', userId, 'watchlist', String(malId))),
+        );
       },
 
       updateWatchlistStatus: (malId, status) => {
         set((s) => ({
           watchlist: s.watchlist.map((w) => (w.malId === malId ? { ...w, status } : w)),
         }));
-        
-        const user = auth.currentUser;
-        if (user && db) {
-          const entry = get().watchlist.find((w) => w.malId === malId);
-          if (entry) {
-            setDoc(doc(db, 'users', user.uid, 'watchlist', String(malId)), entry).catch((err) => {
-              console.error('Failed to update Firestore watchlist status:', err);
-            });
-          }
-        }
+
+        const entry = get().watchlist.find((w) => w.malId === malId);
+        if (!entry) return;
+        void syncWatchlist((db, userId, fs) =>
+          fs.setDoc(fs.doc(db, 'users', userId, 'watchlist', String(malId)), entry),
+        );
       },
 
       addToHistory: (entry) =>

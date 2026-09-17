@@ -193,7 +193,9 @@ export const GENRE_CONTENT: Record<string, GenreContent> = {
 
 export function getGenreContent(slug: string): GenreContent {
   const fallback: GenreContent = {
-    intro: `Browse the complete ${slug} anime collection on MikuAnime. Every title here includes scores, episode counts, airing status, and synopses so you can compare shows at a glance and pick the right one to stream.`,
+    intro: [
+      `Browse the complete ${slug} anime collection on MikuAnime. Every title here includes scores, episode counts, airing status, and synopses so you can compare shows at a glance and pick the right one to stream.`,
+    ],
     faq: [
       { q: `What ${slug} anime are most popular right now?`, a: `Open the ${slug} ranking on MikuAnime — it updates with user scores and trends, so the most-loved titles float to the top as the season changes.` },
       { q: `How do I choose a good ${slug} anime?`, a: `Compare the score, synopsis, and episode count on each card, and check the 'More Like This' section on any series page to branch out from titles you already enjoyed.` },

@@ -7,6 +7,7 @@ import { CharacterList } from '@/components/anime/CharacterList';
 import { RelatedAnime } from '@/components/anime/RelatedAnime';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { SEO, buildDescription } from '@/components/common/SEO';
+import { KeyFacts, type KeyFact } from '@/components/common/KeyFacts';
 import { useAnimeDetail, useAnimeEpisodes } from '@/hooks/useAnime';
 import { apiClient } from '@/api/client';
 import { AlertCircle, List, Users, ListVideo, ExternalLink } from 'lucide-react';
@@ -66,6 +67,32 @@ function buildAnimeFaq(anime: Anime) {
     'name': item.q,
     'acceptedAnswer': { '@type': 'Answer', 'text': item.a },
   }));
+}
+
+function buildAnimeKeyFacts(anime: Anime): KeyFact[] {
+  const isAiring = anime.status === 'Currently Airing' || anime.status === 'Airing';
+  const studios = anime.studios?.map((s) => s.name).join(', ');
+  const themes = anime.themes?.map((t) => t.name).join(', ');
+  const aired =
+    anime.aired?.string && anime.aired.string.trim()
+      ? anime.aired.string
+      : anime.season && anime.year
+        ? `${anime.season} ${anime.year}`
+        : '';
+
+  return [
+    { label: 'Type', value: anime.type || '' },
+    { label: 'Episodes', value: anime.episodes != null ? String(anime.episodes) : isAiring ? 'Airing' : '' },
+    { label: 'Status', value: anime.status || '' },
+    { label: 'Score', value: anime.score != null ? `${anime.score.toFixed(1)} / 10` : '' },
+    { label: 'Rank', value: anime.rank != null ? `#${anime.rank}` : '' },
+    { label: 'Popularity', value: anime.popularity != null ? `#${anime.popularity}` : '' },
+    { label: 'Premiered', value: aired },
+    { label: 'Duration', value: anime.duration || '' },
+    { label: 'Source', value: anime.source || '' },
+    { label: 'Studios', value: studios || '' },
+    { label: 'Themes', value: themes || '' },
+  ];
 }
 
 function buildAnimeSchema(anime: Anime): Record<string, unknown>[] {
@@ -200,6 +227,8 @@ export default function AnimePage() {
       <AnimeHero anime={anime} />
 
       <div className="max-w-7xl mx-auto px-4 py-10 space-y-12">
+        <KeyFacts title="Key Facts" facts={buildAnimeKeyFacts(anime)} className="max-w-3xl" />
+
         {visibleEpisodes && visibleEpisodes.length > 0 && (
           <section className="scroll-mt-20">
             <h2 className="font-display font-semibold text-xl text-text-primary mb-5 flex items-center gap-2">
@@ -242,9 +271,9 @@ export default function AnimePage() {
           </h2>
           <div className="divide-y divide-border-subtle/70 max-w-3xl">
             {buildAnimeFaq(anime).map((item) => (
-              <div key={item.q} className="py-4">
-                <h3 className="font-body font-semibold text-text-primary text-base mb-1.5">{item.q}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{item.a}</p>
+              <div key={item.name} className="py-4">
+                <h3 className="font-body font-semibold text-text-primary text-base mb-1.5">{item.name}</h3>
+                <p className="text-sm text-text-secondary leading-relaxed">{item.acceptedAnswer.text}</p>
               </div>
             ))}
           </div>
