@@ -75,7 +75,7 @@
           "value": "mikuanime.site"
         }
       ],
-      "destination": "https://www.mikuanime.site/:splat",
+      "destination": "https://www.mikuanime.site/$1",
       "statusCode": 301
     }
   ],
