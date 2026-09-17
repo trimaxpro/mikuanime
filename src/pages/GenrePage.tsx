@@ -9,7 +9,6 @@ import { GENRES } from '@/utils/constants';
 import { getGenreIcon } from '@/utils/genreIcons';
 import { getGenreContent } from '@/utils/genreContent';
 import { useBrowse } from '@/hooks/useAnime';
-import { HelpCircle } from 'lucide-react';
 import { AlertCircle, ArrowUpDown, ChevronDown, Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,11 +24,6 @@ const SORT_OPTIONS = [
 function buildGenreSchema(genreName: string, slug: string) {
   const url = `https://www.mikuanime.site/genre/${slug}`;
   const content = getGenreContent(slug);
-  const faq = content.faq.map((f) => ({
-    '@type': 'Question',
-    'name': f.q,
-    'acceptedAnswer': { '@type': 'Answer', 'text': f.a },
-  }));
 
   return [
     {
@@ -46,11 +40,6 @@ function buildGenreSchema(genreName: string, slug: string) {
         { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.mikuanime.site/' },
         { '@type': 'ListItem', 'position': 2, 'name': `${genreName} Anime`, 'item': url },
       ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      'mainEntity': faq,
     },
   ];
 }
@@ -265,21 +254,6 @@ export default function GenrePage() {
             </p>
           </div>
         )}
-      </div>
-
-      {/* FAQ for AI search readiness + structured answers */}
-      <div className="max-w-3xl mx-auto px-4 mt-14">
-        <h2 className="font-display font-bold text-xl md:text-2xl text-text-primary mb-4 flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-accent-glow stroke-[1.5]" /> {genre.name} Anime FAQ
-        </h2>
-        <div className="divide-y divide-border-subtle/70">
-          {content.faq.map((item) => (
-            <div key={item.q} className="py-4">
-              <h3 className="font-body font-semibold text-text-primary mb-1.5 text-base">{item.q}</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">{item.a}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </PageWrapper>
   );
