@@ -5,7 +5,6 @@ import { Search, Menu, X, Home, Globe, Calendar, LogIn, BookmarkPlus } from 'luc
 import { cn } from '@/utils/cn';
 import { useSearch } from '@/hooks/useSearch';
 import { useAuth } from '@/hooks/useAuth';
-import { LiveViewerCounter } from '@/components/ui/LiveViewerCounter';
 import type { Anime } from '@/types/anime';
 
 const NAV_LINKS = [
@@ -111,7 +110,6 @@ export function Navbar() {
                 <span className="text-accent-glow">Miku</span><span className="text-text-primary">Anime</span>
               </span>
             </Link>
-            <LiveViewerCounter className="hidden sm:inline-flex ml-1" />
           </div>
 
           <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-surface/60 backdrop-blur-md border border-border-subtle/80 shadow-sm absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

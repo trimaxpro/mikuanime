@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { List, Radio, CalendarDays, Calendar, Tag, ArrowUpDown, ChevronDown, X, RotateCcw } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { GENRES, ANIME_TYPES, ANIME_STATUS, SEASONS, SORT_OPTIONS } from '@/utils/constants';
+import { getGenreIcon } from '@/utils/genreIcons';
 
 export interface FilterState {
   type: string | null;
@@ -165,20 +166,25 @@ function GenrePills({ selected, onToggle }: { selected: string[]; onToggle: (gen
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <Tag className="w-3.5 h-3.5 text-text-muted stroke-[1.5] flex-shrink-0" />
-      {display.map((g) => (
-        <button
-          key={g.name}
-          onClick={() => onToggle(g.name)}
-          className={cn(
-            'px-2.5 py-1 rounded-input text-xs font-body font-medium transition-all duration-200 border',
-            selected.includes(g.name)
-              ? 'bg-accent-primary/15 text-accent-glow border-accent-primary/30 shadow-glow-sm'
-              : 'bg-elevated text-text-secondary border-border-subtle hover:border-border-glow hover:text-text-primary',
-          )}
-        >
-          {g.name}
-        </button>
-      ))}
+      {display.map((g) => {
+        const Icon = getGenreIcon(g.slug);
+        const isSelected = selected.includes(g.name);
+        return (
+          <button
+            key={g.name}
+            onClick={() => onToggle(g.name)}
+            className={cn(
+              'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-input text-xs font-body font-medium transition-all duration-200 border',
+              isSelected
+                ? 'bg-accent-primary/15 text-accent-glow border-accent-primary/30 shadow-glow-sm'
+                : 'bg-elevated text-text-secondary border-border-subtle hover:border-border-glow hover:text-text-primary',
+            )}
+          >
+            <Icon className={cn('w-3 h-3 stroke-[1.8]', isSelected ? 'text-accent-glow' : 'text-text-muted')} />
+            <span>{g.name}</span>
+          </button>
+        );
+      })}
       {GENRES.length > 8 && (
         <button
           onClick={() => setShowAll(!showAll)}

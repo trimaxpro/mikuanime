@@ -5,8 +5,9 @@ import { AnimeGrid } from '@/components/browse/AnimeGrid';
 import { DotPattern } from '@/components/ui/DotPattern';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { GENRES } from '@/utils/constants';
+import { getGenreIcon } from '@/utils/genreIcons';
 import { useBrowse } from '@/hooks/useAnime';
-import { Tag, Sparkles, AlertCircle, ArrowUpDown, ChevronDown, Loader2 } from 'lucide-react';
+import { Sparkles, AlertCircle, ArrowUpDown, ChevronDown, Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -105,7 +106,10 @@ export default function GenrePage() {
         <DotPattern opacity={0.3} />
         <div className="relative z-10 max-w-7xl mx-auto">
           <h1 className="font-display font-bold text-3xl md:text-4xl text-text-primary ml-5 flex items-center gap-3">
-            <Tag className="w-8 h-8 text-accent-glow stroke-[1.5]" />
+            {(() => {
+              const GenreIcon = getGenreIcon(genre.slug);
+              return <GenreIcon className="w-8 h-8 text-accent-glow stroke-[1.5]" />;
+            })()}
             {genre.name} Anime
           </h1>
           <p className="text-text-secondary text-sm mt-1 ml-5 flex items-center gap-1.5">
