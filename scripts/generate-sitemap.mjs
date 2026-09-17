@@ -31,6 +31,7 @@ const core = [
   { loc: '/', freq: 'daily', priority: '1.0' },
   { loc: '/browse', freq: 'daily', priority: '0.9' },
   { loc: '/schedule', freq: 'daily', priority: '0.9' },
+  { loc: '/faq', freq: 'monthly', priority: '0.5' },
   { loc: '/terms', freq: 'monthly', priority: '0.4' },
   { loc: '/privacy', freq: 'monthly', priority: '0.4' },
 ];

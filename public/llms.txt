@@ -7,6 +7,7 @@
 - [Home](https://www.mikuanime.site/): Explore featured hero releases, trending series, seasonal broadcasts, and quick genre navigation.
 - [Browse](https://www.mikuanime.site/browse): Filter anime by format (TV, Movie, OVA, ONA, Special), airing status, season, release year, score, and genre tags.
 - [Schedule](https://www.mikuanime.site/schedule): Live daily anime broadcast timetable tracking simulcast air dates and countdowns.
+- [FAQ](https://www.mikuanime.site/faq): Answers to common questions about MikuAnime, including pricing, accounts, and sub/dub availability.
 - [Sign In](https://www.mikuanime.site/signin): User account authentication with email/password and Google OAuth.
 - [Register](https://www.mikuanime.site/register): Free account registration for watchlist synchronization.
 

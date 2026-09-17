@@ -47,6 +47,7 @@ const SignInPage = lazyWithRetry(() => import('@/pages/SignInPage'));
 const RegisterPage = lazyWithRetry(() => import('@/pages/RegisterPage'));
 const TermsPage = lazyWithRetry(() => import('@/pages/TermsPage'));
 const PrivacyPage = lazyWithRetry(() => import('@/pages/PrivacyPage'));
+const FaqPage = lazyWithRetry(() => import('@/pages/FaqPage'));
 const NotFoundPage = lazyWithRetry(() => import('@/pages/NotFoundPage'));
 
 const queryClient = new QueryClient({
@@ -100,6 +101,7 @@ function App() {
                         <Route path="/verify-email" element={<Navigate to="/" replace />} />
                         <Route path="/terms" element={<TermsPage />} />
                         <Route path="/privacy" element={<PrivacyPage />} />
+                        <Route path="/faq" element={<FaqPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                       </Routes>
                     </Suspense>

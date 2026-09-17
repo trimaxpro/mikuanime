@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FileText, Shield, Twitter } from 'lucide-react';
+import { FileText, Shield, HelpCircle } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -29,15 +29,14 @@ export function Footer() {
           &copy; {new Date().getFullYear()} MikuAnime. All rights reserved.
         </div>
         <div className="md:w-1/3 flex items-center justify-center md:justify-end gap-3 text-text-secondary text-[14.5px] sm:text-[15px]">
-          <a
-            href="https://x.com/MikuAnime"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="MikuAnime on X (Twitter)"
-            className="hover:text-accent-glow transition-colors duration-200 flex items-center justify-center w-7 h-7 rounded-full border border-transparent hover:border-border-subtle/60 hover:bg-white/[0.04]"
+          <Link
+            to="/faq"
+            className="hover:text-accent-glow transition-colors duration-200 flex items-center gap-2 font-medium hover:bg-white/[0.04] px-3 h-7 rounded-full border border-transparent hover:border-border-subtle/60"
           >
-            <Twitter className="w-[18px] h-[18px] stroke-[1.65]" />
-          </a>
+            <HelpCircle className="w-[18px] h-[18px] stroke-[1.65]" />
+            <span>FAQ</span>
+          </Link>
+          <span className="text-border-subtle/60 select-none leading-7">•</span>
           <Link
             to="/terms"
             className="hover:text-accent-glow transition-colors duration-200 flex items-center gap-2 font-medium hover:bg-white/[0.04] px-3 h-7 rounded-full border border-transparent hover:border-border-subtle/60"
